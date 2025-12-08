@@ -14,8 +14,21 @@
           <ul>
             <li><a href="index.html" class="nav-link">Начало</a></li>
             <li><a href="command.html" class="nav-link">Command</a></li>
-            <li><a href="iterator.html" class="nav-link active">Iterator</a></li>
+            <li class="has-submenu">
+              <a href="iterator.html" class="nav-link" id="iteratorLink">Iterator</a>
+
+              <ul class="submenu" id="iteratorSubmenu">
+                <li><a href="iterator.html#goal">Цел</a></li>
+                <li><a href="iterator.html#problem">Проблем</a></li>
+                <li><a href="iterator.html#solution">Решение</a></li>
+                <li><a href="iterator.html#analogy">Аналогия</a></li>
+                <li><a href="iterator.html#structure">Структура</a></li>
+                <li><a href="iterator.html#php-example">Пример на PHP</a></li>
+                <li><a href="iterator.html#usage">Приложимост</a></li>
+              </ul>
+            </li>
             <li><a href="observer.html" class="nav-link">Observer</a></li>
+            <li><a href="sources.html" class="nav-link">Източници</a></li>
           </ul>
         </nav>
       </aside>
@@ -370,5 +383,15 @@ client():
         </div>
       </main>
     </div>
+    <script>
+      const iteratorSubmenu = document.getElementById("iteratorSubmenu");
+
+      // Показваме подменюто само ако сме в iterator.html
+      if (window.location.pathname.includes("iterator.html")) {
+        iteratorSubmenu.classList.add("show-submenu");
+      } else {
+        iteratorSubmenu.classList.remove("show-submenu");
+      }
+    </script>
   </body>
 </html>

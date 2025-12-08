@@ -13,17 +13,42 @@
         <nav>
           <ul>
             <li><a href="index.html" class="nav-link">Начало</a></li>
-            <li><a href="command.html" class="nav-link active">Command</a></li>
+            <li class="has-submenu">
+              <a href="command.html" class="nav-link" id="commandLink">Command</a>
+
+              <ul class="submenu" id="commandSubmenu">
+                <li><a href="command.html#goal">Цел</a></li>
+                <li><a href="command.html#problem">Проблем</a></li>
+                <li><a href="command.html#solution">Решение</a></li>
+                <li><a href="command.html#analogy">Аналогия</a></li>
+                <li><a href="command.html#structure">Структура</a></li>
+                <li><a href="command.html#php-example">Пример на PHP</a></li>
+                <li><a href="command.html#usage">Приложимост</a></li>
+              </ul>
+            </li>
             <li><a href="iterator.html" class="nav-link">Iterator</a></li>
             <li><a href="observer.html" class="nav-link">Observer</a></li>
+            <li><a href="sources.html" class="nav-link">Източници</a></li>
           </ul>
         </nav>
       </aside>
 
       <main class="main-content">
         <h1>Command Pattern</h1>
+        <div class="dropdown-container">
+          <button class="dropdown-btn">Навигация в страницата ▾</button>
+          <div class="dropdown-menu">
+            <a href="#goal">Цел</a>
+            <a href="#problem">Проблем</a>
+            <a href="#solution">Решение</a>
+            <a href="#analogy">Аналогия</a>
+            <a href="#structure">Структура</a>
+            <a href="#php-example">Пример на PHP</a>
+            <a href="#usage">Приложимост</a>
+          </div>
+        </div>
 
-        <h2>Цел</h2>
+        <h2 id="goal">Цел</h2>
         <p>
           <strong>Command</strong> е шаблон, който ни помага да превърнем една
           <strong>операция в отделен обект</strong>. Така всяка „команда“ се държи като нещо
@@ -36,7 +61,7 @@
           <img src="img/command/intent.png" alt="Command Intent Diagram" />
         </div>
 
-        <h2>Проблем</h2>
+        <h2 id="problem">Проблем</h2>
         <p>
           Нека си представим, че разработват нов текстов редактор. В него има лента с бутони –
           копиране, поставяне, изтриване и други. Те имат <strong>общ клас за бутон</strong>
@@ -81,7 +106,7 @@
           <img src="img/command/problem3.png" alt="Command problem3 Diagram" />
         </div>
 
-        <h2>Решение</h2>
+        <h2 id="solution">Решение</h2>
         <p>
           Добрата софтуерна архитектура често се основава на принципа
           <strong>разделяне на отговорностите</strong>. Това обикновено означава приложението да
@@ -158,7 +183,7 @@
           между GUI и бизнес логиката и прави системата по-гъвкава и лесна за поддръжка.
         </p>
 
-        <h2>Аналогия от Реалния Свят</h2>
+        <h2 id="analogy">Аналогия от Реалния Свят</h2>
         <p>
           Нека да си представим, че след дълга разходка из града най-накрая стигаме до уютен
           ресторант и сядаме на маса до прозореца. Приятелски настроен сервитьор идва и бързо
@@ -180,7 +205,7 @@
           <img src="img/command/analogy.png" alt="Command analogy Diagram" />
         </div>
 
-        <h2>Структура</h2>
+        <h2 id="structure">Структура</h2>
         <p>
           По-долу е описана последователността на работа на Command шаблона чрез отделни елементи,
           представени като карти.
@@ -281,7 +306,7 @@ client():
           <div class="step"><strong>7.</strong> Приемникът изпълнява бизнес логиката.</div>
         </div>
 
-        <h2>Пример на PHP</h2>
+        <h2 id="php-example">Пример на PHP</h2>
 
         <div class="code-block">
           <span class="comment">// Приемник</span>
@@ -346,7 +371,7 @@ client():
           <b>Здравей</b>
         </div>
 
-        <h2>Приложимост</h2>
+        <h2 id="usage">Приложимост</h2>
 
         <div class="cards-container">
           <!-- Card 1 -->
@@ -396,5 +421,32 @@ client():
         </div>
       </main>
     </div>
+
+    <script>
+      const btn = document.querySelector(".dropdown-btn");
+      const menu = document.querySelector(".dropdown-menu");
+
+      btn.addEventListener("click", () => {
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+      });
+
+      // Скриване на менюто след избор
+      menu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          menu.style.display = "none";
+        });
+      });
+    </script>
+
+    <script>
+      const submenu = document.getElementById("commandSubmenu");
+
+      // Проверяваме дали сме на command.html
+      if (window.location.pathname.includes("command.html")) {
+        submenu.classList.add("show-submenu");
+      } else {
+        submenu.classList.remove("show-submenu");
+      }
+    </script>
   </body>
 </html>

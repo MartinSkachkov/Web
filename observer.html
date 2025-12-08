@@ -15,7 +15,20 @@
             <li><a href="index.html" class="nav-link">Начало</a></li>
             <li><a href="command.html" class="nav-link">Command</a></li>
             <li><a href="iterator.html" class="nav-link">Iterator</a></li>
-            <li><a href="observer.html" class="nav-link active">Observer</a></li>
+            <li class="has-submenu">
+              <a href="observer.html" class="nav-link" id="observerLink">Observer</a>
+
+              <ul class="submenu" id="observerSubmenu">
+                <li><a href="observer.html#goal">Цел</a></li>
+                <li><a href="observer.html#problem">Проблем</a></li>
+                <li><a href="observer.html#solution">Решение</a></li>
+                <li><a href="observer.html#analogy">Аналогия</a></li>
+                <li><a href="observer.html#structure">Структура</a></li>
+                <li><a href="observer.html#php-example">Пример на PHP</a></li>
+                <li><a href="observer.html#usage">Приложимост</a></li>
+              </ul>
+            </li>
+            <li><a href="sources.html" class="nav-link">Източници</a></li>
           </ul>
         </nav>
       </aside>
@@ -374,5 +387,15 @@ client():
         </div>
       </main>
     </div>
+    <script>
+      const observerSubmenu = document.getElementById("observerSubmenu");
+
+      // Показваме подменюто само ако сме в observer.html
+      if (window.location.pathname.includes("observer.html")) {
+        observerSubmenu.classList.add("show-submenu");
+      } else {
+        observerSubmenu.classList.remove("show-submenu");
+      }
+    </script>
   </body>
 </html>
