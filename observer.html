@@ -1,53 +1,378 @@
 <!DOCTYPE html>
 <html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Observer Pattern - Поведенчески Шаблони</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <aside class="sidebar">
-            <h2>Съдържание</h2>
-            <nav>
-                <ul>
-                    <li><a href="index.html" class="nav-link">Начало</a></li>
-                    <li><a href="command.html" class="nav-link">Command</a></li>
-                    <li><a href="iterator.html" class="nav-link">Iterator</a></li>
-                    <li><a href="observer.html" class="nav-link active">Observer</a></li>
-                </ul>
-            </nav>
-        </aside>
+      <aside class="sidebar">
+        <h2>Съдържание</h2>
+        <nav>
+          <ul>
+            <li><a href="index.html" class="nav-link">Начало</a></li>
+            <li><a href="command.html" class="nav-link">Command</a></li>
+            <li><a href="iterator.html" class="nav-link">Iterator</a></li>
+            <li><a href="observer.html" class="nav-link active">Observer</a></li>
+          </ul>
+        </nav>
+      </aside>
 
-        <main class="main-content">
-            <h1>Observer Pattern (Шаблон Наблюдател)</h1>
-            
-            <h2>Цел (Intent)</h2>
-            <p>[Текст за Intent]</p>
-            
-            <h2>Проблем (Problem)</h2>
-            <p>[Текст за Problem]</p>
-            
-            <h2>Решение (Solution)</h2>
-            <p>[Текст за Solution]</p>
-            
-            <h2>Аналогия от Реалния Свят (Real-World Analogy)</h2>
-            <p>[Текст за Real-World Analogy]</p>
-            
-            <h2>Структура (Structure)</h2>
-            <div class="structure-diagram">
-                <p>[Тук ще добавите диаграма или описание на структурата]</p>
-            </div>
-            
-            <h2>Приложимост (Applicability)</h2>
-            <p>[Текст за Applicability]</p>
-            
-            <h2>Пример на PHP</h2>
-            <div class="code-block">
-                <pre><code>[PHP код]</code></pre>
-            </div>
-        </main>
+      <main class="main-content">
+        <h1>Observer Pattern (Шаблон Наблюдател)</h1>
+
+        <h2>Цел</h2>
+        <p>
+          <strong>Observer</strong> е поведенчески шаблон, който позволява да се създаде механизъм
+          за абонамент, чрез който множество обекти могат автоматично да бъдат уведомявани при
+          настъпването на определени събития в обекта, който наблюдават.
+        </p>
+        <p>
+          Вместо обектите да проверяват сами за промени, шаблонът предоставя централизирана система
+          за известяване. Така наблюдателите получават актуална информация веднага щом възникне
+          събитие, без да има силна зависимост между тях и субекта.
+        </p>
+        <p>
+          Това прави системата по-гъвкава, улеснява разширяването ѝ и позволява динамично добавяне
+          или премахване на наблюдатели по време на работа.
+        </p>
+
+        <div class="image-center">
+          <img src="img/observer/observer.png" alt="Observer Observer Diagram" />
+        </div>
+
+        <h2>Проблем</h2>
+        <p>
+          Нека си представим, че имаме два вида обекти: <code>Customer</code> и <code>Store</code>.
+          Клиентът е силно заинтересован от определен продукт (например нов модел iPhone), който
+          скоро трябва да бъде наличен в магазина.
+        </p>
+
+        <p>
+          Клиентът може да посещава магазина всеки ден, за да проверява дали продуктът вече е
+          пристигнал. Но докато продуктът е още в процес на доставка, повечето от тези посещения ще
+          бъдат напълно излишни.
+        </p>
+
+        <p>
+          От друга страна, магазинът може да реши да изпраща имейли до всички клиенти винаги, когато
+          нов продукт стане наличен. Това би спестило излишни посещения на някои клиенти, но би
+          подразнило други, които изобщо не се интересуват от подобни известия.
+        </p>
+
+        <div class="image-center">
+          <img src="img/observer/observer-problem.png" alt="Observer problem Diagram" />
+        </div>
+
+        <div class="md-highlight">
+          <p>
+            Така възниква конфликт:
+            <strong
+              >или клиентът губи време в проверки, или магазинът губи ресурси, като уведомява хора,
+              които не желаят информацията.</strong
+            >
+          </p>
+        </div>
+
+        <h2>Решение</h2>
+        <p>
+          Обектът, който притежава важно състояние, обикновено се нарича <em>subject</em>. Но тъй
+          като той трябва да уведомява други обекти при промяна на това състояние, ще го наричаме
+          <strong>publisher</strong> (издател). Всички останали обекти, които искат да следят тези
+          промени, се наричат <strong>subscribers</strong>
+          (абонати).
+        </p>
+
+        <p>
+          Шаблонът Observer предлага да добавим механизъм за абонамент в класа на publisher-а. Така
+          всеки обект ще може да се <strong>абонира</strong> или <strong>отписва</strong> от потока
+          събития. На практика този механизъм представлява:
+        </p>
+
+        <ul>
+          <li>масив, който съхранява списък с референции към абонатите;</li>
+          <li>методи за добавяне и премахване на абонати.</li>
+        </ul>
+
+        <div class="image-center">
+          <img src="img/observer/solution1.png" alt="Observer solution1 Diagram" />
+        </div>
+
+        <p>
+          Когато настъпи важно събитие, publisher-ът просто обхожда всички абонати и извиква техния
+          метод за уведомяване.
+        </p>
+
+        <p>
+          В реални приложения може да има десетки различни класове абонати, които следят събития от
+          един и същи publisher. Не искаме publisher-ът да бъде зависим от всички тези класове, още
+          повече че някои от тях може да се появят в бъдеще или да бъдат написани от външни
+          разработчици.
+        </p>
+
+        <p>
+          Затова е важно всички абонати да имплементират <strong>един и същи интерфейс</strong>, а
+          publisher-ът да комуникира с тях единствено чрез този интерфейс. Интерфейсът трябва да
+          съдържа метод за уведомяване, както и необходимите параметри, чрез които publisher-ът може
+          да подаде контекстна информация.
+        </p>
+
+        <div class="image-center">
+          <img src="img/observer/solution2.png" alt="Observer solution2 Diagram" />
+        </div>
+
+        <p>
+          Ако приложението използва няколко различни вида publishers, може да отидем дори по-далеч и
+          да направим така, че <strong>всички publishers да следват общ интерфейс</strong>. Той
+          трябва да описва единствено методите за абониране и отписване. Това ще позволи на всеки
+          subscriber да следи състоянието на различни publishers, без да е обвързан с техните
+          конкретни реализации.
+        </p>
+
+        <h2>Аналогия от Реалния Свят (Real-World Analogy)</h2>
+
+        <div class="image-center">
+          <img src="img/observer/observer-analogy.png" alt="Observer Analogy Diagram" />
+        </div>
+
+        <p>
+          Ако се абонираме за вестник или списание, вече няма нужда да ходим до магазина, за да
+          проверяваме дали е излязъл следващият брой. Вместо това
+          <strong>издателят</strong> изпраща новите издания директно в нашата пощенска кутия веднага
+          след публикуване - понякога дори предварително.
+        </p>
+
+        <p>
+          Издателят поддържа списък с <strong>абонати</strong> и знае кой се интересува от кои
+          списания. Ние можем да се отпишем по всяко време, ако вече не желаем да получаваме нови
+          издания.
+        </p>
+
+        <h2>Структура</h2>
+        <div class="cards-container">
+          <!-- Publisher -->
+          <div class="card">
+            <h3>1. Publisher (Издател / Наблюдаван Обект)</h3>
+            <p>
+              Съхранява списък с абонати и предоставя методи за абониране, отписване и уведомяване.
+              Изпраща събития, когато състоянието му се промени или извърши действие.
+            </p>
+            <pre><code>
+class Publisher:
+    subscribers = []
+
+    subscribe(subscriber):
+        subscribers.append(subscriber)
+
+    unsubscribe(subscriber):
+        subscribers.remove(subscriber)
+
+    notify(eventData):
+        for s in subscribers:
+            s.update(eventData)
+    </code></pre>
+          </div>
+
+          <!-- Subscriber Interface -->
+          <div class="card">
+            <h3>2. Интерфейс Subscriber (Абонат)</h3>
+            <p>
+              Декларира метода <code>update()</code>, който издателят извиква при ново събитие. Може
+              да приема параметри за предаване на контекст.
+            </p>
+            <pre><code>
+interface Subscriber:
+    update(eventData)
+    </code></pre>
+          </div>
+
+          <!-- Concrete Subscribers -->
+          <div class="card">
+            <h3>3. Конкретни Абонати (Concrete Subscribers)</h3>
+            <p>
+              Реагират на уведомленията от издателя. Всички трябва да имплементират интерфейса
+              <code>Subscriber</code>, за да не зависи издателят от конкретни класове.
+            </p>
+            <pre><code>
+class ConcreteSubscriber implements Subscriber:
+    update(eventData):
+        // обработка на полученото събитие
+    </code></pre>
+          </div>
+
+          <!-- Optional Publisher Interface -->
+          <div class="card">
+            <h3>4. Интерфейс Publisher (незадължителен)</h3>
+            <p>
+              Ако приложението използва няколко различни вида издатели, общ интерфейс позволява
+              абонатите да работят с тях без да зависят от конкретните им реализации.
+            </p>
+            <pre><code>
+interface PublisherInterface:
+    subscribe(subscriber)
+    unsubscribe(subscriber)
+    notify(eventData)
+    </code></pre>
+          </div>
+
+          <!-- Client -->
+          <div class="card">
+            <h3>5. Клиент (Client)</h3>
+            <p>
+              Създава обекти на издател и абонати поотделно, след което регистрира абонатите.
+              Клиентът управлява връзките между издатели и абонати.
+            </p>
+            <pre><code>
+client():
+    publisher = new Publisher()
+
+    sub1 = new ConcreteSubscriber()
+    sub2 = new ConcreteSubscriber()
+
+    publisher.subscribe(sub1)
+    publisher.subscribe(sub2)
+
+    // Когато се случи събитие
+    publisher.notify("New product available")
+    </code></pre>
+          </div>
+        </div>
+
+        <h3>Обобщена последователност</h3>
+        <div class="sequence">
+          <div class="step"><strong>1.</strong> Клиентът създава Publisher и Subscribers.</div>
+          <div class="step">
+            <strong>2.</strong> Абонатите се регистрират чрез <code>subscribe()</code>.
+          </div>
+          <div class="step"><strong>3.</strong> В издателя настъпва събитие.</div>
+          <div class="step"><strong>4.</strong> Издателят извиква <code>notify()</code>.</div>
+          <div class="step">
+            <strong>5.</strong> За всеки абонат се извиква <code>update(eventData)</code>.
+          </div>
+          <div class="step"><strong>6.</strong> Абонатите реагират според логиката си.</div>
+        </div>
+
+        <h2>Пример на PHP</h2>
+
+        <div class="code-block">
+          <span class="comment">// Интерфейс Наблюдател (Subscriber)</span>
+          <span class="keyword">interface</span> <span class="obj">Observer</span> {
+          <span class="keyword">public function</span> update(<span class="obj">string</span> $msg);
+          }
+
+          <span class="comment">// Интерфейс Издател (Publisher)</span>
+          <span class="keyword">interface</span> <span class="obj">Publisher</span> {
+          <span class="keyword">public function</span> subscribe(Observer $o);
+          <span class="keyword">public function</span> unsubscribe(Observer $o);
+          <span class="keyword">public function</span> notify(<span class="obj">string</span> $msg);
+          }
+
+          <span class="comment">// Конкретен Издател</span>
+          <span class="keyword">class</span> <span class="obj">Store</span>
+          <span class="keyword">implements</span> <span class="obj">Publisher</span> {
+          <span class="keyword">private array</span> $subs = [];
+
+          <span class="keyword">public function</span> subscribe(Observer $o) { $this->subs[] = $o;
+          }
+
+          <span class="keyword">public function</span> unsubscribe(Observer $o) { $this->subs =
+          array_filter($this->subs, fn($x) =&gt; $x !== $o); }
+
+          <span class="keyword">public function</span> notify(<span class="obj">string</span> $msg)
+          { <span class="keyword">foreach</span> ($this->subs as $s) { $s-&gt;update($msg); } }
+
+          <span class="comment">// Примерно събитие</span>
+          <span class="keyword">public function</span> newProduct(<span class="obj">string</span>
+          $p) { $this->notify(<span class="str">"Нов продукт наличен: "</span> . $p); } }
+
+          <span class="comment">// Конкретен Наблюдател</span>
+          <span class="keyword">class</span> <span class="obj">Customer</span>
+          <span class="keyword">implements</span> <span class="obj">Observer</span> {
+          <span class="keyword">public function</span> __construct(<span class="keyword"
+            >private</span
+          >
+          <span class="obj">string</span> $name) {}
+
+          <span class="keyword">public function</span> update(<span class="obj">string</span> $msg)
+          { <span class="keyword">echo</span> $this-&gt;name .
+          <span class="str">" получи известие: "</span> . $msg .
+          <span class="str">"&lt;br&gt;"</span>; } }
+
+          <span class="comment">// Клиент (демонстрация)</span>
+          $store = <span class="keyword">new</span> <span class="obj">Store</span>(); $c1 =
+          <span class="keyword">new</span> <span class="obj">Customer</span>(<span class="str"
+            >"Иван"</span
+          >); $c2 = <span class="keyword">new</span> <span class="obj">Customer</span>(<span
+            class="str"
+            >"Мария"</span
+          >); $store-&gt;subscribe($c1); $store-&gt;subscribe($c2); $store-&gt;newProduct(<span
+            class="str"
+            >"iPhone 17"</span
+          >);
+        </div>
+
+        <h3>Примерен изход</h3>
+        <div
+          class="output-box"
+          style="background: #fff; border: 1px solid #ccc; padding: 12px; font-family: Arial"
+        >
+          Иван получи известие: Нов продукт наличен: iPhone 17<br />
+          Мария получи известие: Нов продукт наличен: iPhone 17
+        </div>
+
+        <h2>Приложимост</h2>
+        <div class="cards-container">
+          <div class="card">
+            <h3>1. Когато промяна в едни обекти трябва да води до промяна в други</h3>
+            <p>
+              Използваме <strong>Observer</strong>, когато състоянието на един обект (publisher)
+              трябва автоматично да се отразява в множество други обекти (subscribers).
+            </p>
+            <p>
+              Подходящ е, когато броят и видът на наблюдаващите обекти не е известен предварително
+              или се променя динамично по време на изпълнение.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>2. Когато е необходимо да добавяме поведение към обектите по време на работа</h3>
+            <p>
+              Често използван при графични интерфейси: например бутон, към който искаме клиентът да
+              може да закачи собствен код, който да се изпълнява при натискане.
+            </p>
+            <p>
+              Observer позволява това чрез механизъм за абониране, без да модифицираме самия клас на
+              бутона.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>3. Когато наблюдението трябва да е временно или контекстно</h3>
+            <p>
+              Някои обекти трябва да следят други само при конкретни условия или за ограничен период
+              от време.
+            </p>
+            <p>
+              Тъй като списъкът с абонати е динамичен, Observer позволява лесно
+              <strong>абониране</strong> и <strong>отписване</strong> по всяко време.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>4. Когато искаме да избегнем здравото свързване (tight coupling) между обекти</h3>
+            <p>
+              Publisher не трябва да познава конкретните класове на своите абонати. Всички
+              взаимодействия минават през общ интерфейс.
+            </p>
+            <p>
+              Това позволява разширяване на системата с нови типове абонати без промяна на издателя
+              - силно подобрява гъвкавостта и разширяемостта на архитектурата.
+            </p>
+          </div>
+        </div>
+      </main>
     </div>
-</body>
+  </body>
 </html>

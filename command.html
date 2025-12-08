@@ -1,193 +1,200 @@
 <!DOCTYPE html>
 <html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Command Pattern - Поведенчески Шаблони</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <aside class="sidebar">
-            <h2>Съдържание</h2>
-            <nav>
-                <ul>
-                    <li><a href="index.html" class="nav-link">Начало</a></li>
-                    <li><a href="command.html" class="nav-link active">Command</a></li>
-                    <li><a href="iterator.html" class="nav-link">Iterator</a></li>
-                    <li><a href="observer.html" class="nav-link">Observer</a></li>
-                </ul>
-            </nav>
-        </aside>
+      <aside class="sidebar">
+        <h2>Съдържание</h2>
+        <nav>
+          <ul>
+            <li><a href="index.html" class="nav-link">Начало</a></li>
+            <li><a href="command.html" class="nav-link active">Command</a></li>
+            <li><a href="iterator.html" class="nav-link">Iterator</a></li>
+            <li><a href="observer.html" class="nav-link">Observer</a></li>
+          </ul>
+        </nav>
+      </aside>
 
-        <main class="main-content">
-            <h1>Command Pattern</h1>
-            
-            <h2>Цел</h2>
+      <main class="main-content">
+        <h1>Command Pattern</h1>
+
+        <h2>Цел</h2>
+        <p>
+          <strong>Command</strong> е шаблон, който ни помага да превърнем една
+          <strong>операция в отделен обект</strong>. Така всяка „команда“ се държи като нещо
+          самостоятелно — можем да я запазим, да я изпълним по-късно, да я поставим в опашка или
+          дори да върнем назад действието, ако е нужно. Това ни дава по-голяма гъвкавост и контрол
+          върху действията в програмата.
+        </p>
+
+        <div class="image-center">
+          <img src="img/command/intent.png" alt="Command Intent Diagram" />
+        </div>
+
+        <h2>Проблем</h2>
+        <p>
+          Нека си представим, че разработват нов текстов редактор. В него има лента с бутони –
+          копиране, поставяне, изтриване и други. Те имат <strong>общ клас за бутон</strong>
+          <code>Button</code>, който могат да използват навсякъде в приложението.
+        </p>
+
+        <div class="image-center">
+          <img src="img/command/problem1.png" alt="Command problem1 Diagram" />
+        </div>
+
+        <p>
+          Проблемът възниква, когато всеки бутон трябва да изпълнява различно действие. Най-лесното
+          решение изглежда да е създаването на много отделни класове за всеки бутон, като всеки клас
+          съдържа своя собствена логика при натискане.
+        </p>
+
+        <div class="image-center">
+          <img src="img/command/problem2.png" alt="Command problem2 Diagram" />
+        </div>
+
+        <div class="md-highlight">
+          <p>
+            Но това решение бързо се оказва неудобно. Получават се твърде много класове, а
+            <strong
+              >при промяна в основния клас за бутонa има риск да се повредят всички негови
+              наследници</strong
+            >. Така бутоните стават зависими от части на програмата, които често се променят.
+          </p>
+        </div>
+
+        <p>
+          Освен това някои действия (като копиране) могат да бъдат извиквани от много места: бутон в
+          лентата с инструменти, елемент в контекстното меню или клавишна комбинация. Ако логиката
+          за копиране се намира вътре в наследниците на бутона,
+          <strong
+            >тогава при наличие на няколко различни бутона или интерфейсни елемента, които трябва да
+            копират текст, същият код ще трябва да бъде написан многократно</strong
+          >. Това води до излишно дублиране и прави поддръжката по-трудна.
+        </p>
+
+        <div class="image-center">
+          <img src="img/command/problem3.png" alt="Command problem3 Diagram" />
+        </div>
+
+        <h2>Решение</h2>
+        <p>
+          Добрата софтуерна архитектура често се основава на принципа
+          <strong>разделяне на отговорностите</strong>. Това обикновено означава приложението да
+          бъде разделено на слоеве — например слой за потребителския интерфейс (GUI) и слой за
+          бизнес логиката. Интерфейсът показва информация, приема вход от потребителя и визуализира
+          резултатите, но когато трябва да се извърши важна операция, той я предава към бизнес
+          логиката.
+        </p>
+
+        <p>
+          Обикновено това става така: GUI обект извиква метод на обект от бизнес логиката и му
+          подава нужните параметри. Това може да се опише като
+          <em>„GUI обект изпраща заявка към бизнес логика обект“</em>.
+        </p>
+
+        <div class="image-center">
+          <img src="img/command/solution1.png" alt="Command solution1 Diagram" />
+        </div>
+
+        <p>
+          <strong>Command</strong> шаблонът предлага тези заявки да не се изпращат директно. Вместо
+          това те извличат всички детайли на заявката — кой метод да се извика, върху кой обект и с
+          какви аргументи — в отделен клас, наречен <strong>Command</strong>. Този клас има един
+          основен метод, който изпълнява действието.
+        </p>
+
+        <p>
+          Command обектите се превръщат в своеобразен „мост“ между GUI и бизнес логиката. GUI
+          елементът просто извиква командата, без да знае какво точно се случва вътре и кой
+          конкретен обект изпълнява операцията.
+        </p>
+
+        <div class="image-center">
+          <img src="img/command/solution2.png" alt="Command solution2 Diagram" />
+        </div>
+
+        <p>
+          Следващата стъпка е всички команди да имплементират
+          <strong>един и същ интерфейс</strong>, който най-често съдържа само един метод
+          <code>execute()</code>. Това позволява различни команди да бъдат подавани към един и същ
+          изпращач (например бутон) и да се сменят динамично, без да се променя самият GUI елемент.
+        </p>
+
+        <p>
+          Възниква въпросът: <em>„Как се предават параметри, след като execute() няма?“</em>
+          Решението е командата или да бъде предварително конфигурирана с нужните данни, или да може
+          да ги вземе сама при изпълнение.
+        </p>
+
+        <p>
+          След прилагането на Command шаблона в текстовия редактор те вече нямат нужда от множество
+          наследници на <code>Button</code> класа. Достатъчно е основният <code>Button</code> клас
+          да има поле за Command и при натискане да изпълнява командата.
+        </p>
+
+        <div class="image-center">
+          <img src="img/command/solution3.png" alt="Command solution3 Diagram" />
+        </div>
+
+        <p>
+          Разработчиците създават отделни Command класове за всяка операция и свързват всеки GUI
+          елемент с подходящата команда. Менюта, контекстни менюта, клавишни комбинации и други
+          интерфейсни елементи работят по същия начин — всички просто изпълняват командата, която им
+          е зададена.
+        </p>
+
+        <p>
+          Елементите, които извършват едно и също действие (например <em>Copy</em>), използват
+          <strong>един и същ Command</strong>, без никакво дублиране на код.
+        </p>
+
+        <p>
+          Като резултат, командите се превръщат в удобен междинен слой, който намалява зависимостите
+          между GUI и бизнес логиката и прави системата по-гъвкава и лесна за поддръжка.
+        </p>
+
+        <h2>Аналогия от Реалния Свят</h2>
+        <p>
+          Нека да си представим, че след дълга разходка из града най-накрая стигаме до уютен
+          ресторант и сядаме на маса до прозореца. Приятелски настроен сервитьор идва и бързо
+          записва поръчката ни на малко листче. След това той отива в кухнята и закача листчето на
+          стената. След известно време поръчката стига до готвача, който я прочита и приготвя
+          ястието точно според записаното. Когато е готов, готвачът поставя ястието на табла заедно
+          с листчето. Сервитьорът вижда таблата, проверява поръчката, за да е сигурен, че всичко е
+          както трябва, и ни я поднася.
+        </p>
+
+        <p>
+          В тази аналогия хартиената поръчка играе ролята на <strong>команда</strong>. Тя може да
+          стои в опашка, докато готвачът е свободен да я изпълни. Поръчката съдържа цялата
+          необходима информация и позволява готвачът да започне работа веднага, без да се налага да
+          идва лично при нас, за да уточнява детайлите.
+        </p>
+
+        <div class="image-center">
+          <img src="img/command/analogy.png" alt="Command analogy Diagram" />
+        </div>
+
+        <h2>Структура</h2>
+        <p>
+          По-долу е описана последователността на работа на Command шаблона чрез отделни елементи,
+          представени като карти.
+        </p>
+
+        <div class="cards-container">
+          <!-- Invoker -->
+          <div class="card">
+            <h3>1. Изпращач (Invoker)</h3>
             <p>
-                <strong>Command</strong> е шаблон, който ни помага да превърнем една <strong>операция в отделен обект</strong>. 
-                Така всяка „команда“ се държи като нещо самостоятелно — можем да я запазим, 
-                да я изпълним по-късно, да я поставим в опашка или дори да върнем назад действието,
-                ако е нужно. Това ни дава по-голяма гъвкавост и контрол върху действията в програмата.
+              Изпращачът е обектът, който стартира изпълнението на заявката. Той не знае какво точно
+              прави командата — само знае, че може да бъде стартирана.
             </p>
-            
-            <div class="image-center">
-                <img src="img/command/intent.png" alt="Command Intent Diagram">
-            </div>
-            
-            <h2>Проблем</h2>
-            <p>
-                Нека си представим, че разработват нов текстов редактор. В него има лента с бутони 
-                – копиране, поставяне, изтриване и други. Те имат <strong>общ клас за бутон</strong> <code>Button</code>, който могат 
-                да използват навсякъде в приложението.
-            </p>
-
-            <div class="image-center">
-                <img src="img/command/problem1.png" alt="Command problem1 Diagram">
-            </div> 
-
-            <p>
-                Проблемът възниква, когато всеки бутон трябва да изпълнява различно действие. 
-                Най-лесното решение изглежда да е създаването на много отделни класове за 
-                всеки бутон, като всеки клас съдържа своя собствена логика при натискане.
-            </p>
-
-            <div class="image-center">
-                <img src="img/command/problem2.png" alt="Command problem2 Diagram">
-            </div>
-            
-            <div class="md-highlight">
-                <p>
-                    Но това решение бързо се оказва неудобно. Получават се твърде много класове, 
-                    а <strong>при промяна в основния клас за бутонa има риск да се повредят всички негови наследници</strong>. 
-                    Така бутоните стават зависими от части на програмата, които често се променят.
-                </p>
-            </div>
-
-            <p>
-                Освен това някои действия (като копиране) могат да бъдат извиквани от много места: 
-                бутон в лентата с инструменти, елемент в контекстното меню или клавишна комбинация. 
-                Ако логиката за копиране се намира вътре в наследниците на бутона, <strong>тогава при наличие 
-                на няколко различни бутона или интерфейсни елемента, които трябва да копират текст, 
-                същият код ще трябва да бъде написан многократно</strong>. Това води до излишно дублиране и 
-                прави поддръжката по-трудна.
-            </p>
-
-            <div class="image-center">
-                <img src="img/command/problem3.png" alt="Command problem3 Diagram">
-            </div>
-
-            <h2>Решение</h2>
-            <p>
-                Добрата софтуерна архитектура често се основава на принципа 
-                <strong>разделяне на отговорностите</strong>. Това обикновено означава приложението 
-                да бъде разделено на слоеве — например слой за потребителския интерфейс (GUI) 
-                и слой за бизнес логиката. Интерфейсът показва информация, приема вход от 
-                потребителя и визуализира резултатите, но когато трябва да се извърши важна 
-                операция, той я предава към бизнес логиката.
-            </p>
-
-            <p>
-                Обикновено това става така: GUI обект извиква метод на обект от бизнес логиката 
-                и му подава нужните параметри. Това може да се опише като 
-                <em>„GUI обект изпраща заявка към бизнес логика обект“</em>.
-            </p>
-
-            <div class="image-center">
-                <img src="img/command/solution1.png" alt="Command solution1 Diagram">
-            </div>
-            
-            <p>
-                <strong>Command</strong> шаблонът предлага тези заявки да не се изпращат директно. 
-                Вместо това те извличат всички детайли на заявката — кой метод да се извика, 
-                върху кой обект и с какви аргументи — в отделен клас, наречен 
-                <strong>Command</strong>. Този клас има един основен метод, който изпълнява действието.
-            </p>
-
-            <p>
-                Command обектите се превръщат в своеобразен „мост“ между GUI и бизнес логиката. 
-                GUI елементът просто извиква командата, без да знае какво точно се случва вътре и 
-                кой конкретен обект изпълнява операцията.
-            </p>
-
-            <div class="image-center">
-                <img src="img/command/solution2.png" alt="Command solution2 Diagram">
-            </div>
-
-            <p>
-                Следващата стъпка е всички команди да имплементират 
-                <strong>един и същ интерфейс</strong>, който най-често съдържа само един метод 
-                <code>execute()</code>. Това позволява различни команди да бъдат подавани към 
-                един и същ изпращач (например бутон) и да се сменят динамично, без да се променя 
-                самият GUI елемент.
-            </p>
-
-            <p>
-                Възниква въпросът: <em>„Как се предават параметри, след като execute() няма?“</em>  
-                Решението е командата или да бъде предварително конфигурирана с нужните данни, 
-                или да може да ги вземе сама при изпълнение.
-            </p>
-
-            <p>
-                След прилагането на Command шаблона в текстовия редактор те вече нямат нужда от 
-                множество наследници на <code>Button</code> класа. Достатъчно е основният <code>Button</code> клас да има поле 
-                за Command и при натискане да изпълнява командата.
-            </p>
-
-            <div class="image-center">
-                <img src="img/command/solution3.png" alt="Command solution3 Diagram">
-            </div>
-
-            <p>
-                Разработчиците създават отделни Command класове за всяка операция и свързват всеки 
-                GUI елемент с подходящата команда. Менюта, контекстни менюта, клавишни комбинации и 
-                други интерфейсни елементи работят по същия начин — всички просто изпълняват 
-                командата, която им е зададена.
-            </p>
-
-            <p>
-                Елементите, които извършват едно и също действие (например <em>Copy</em>), 
-                използват <strong>един и същ Command</strong>, без никакво дублиране на код.
-            </p>
-
-            <p>
-                Като резултат, командите се превръщат в удобен междинен слой, който намалява 
-                зависимостите между GUI и бизнес логиката и прави системата по-гъвкава и 
-                лесна за поддръжка.
-            </p>
-
-            <h2>Аналогия от Реалния Свят</h2>
-            <p>
-                Нека да си представим, че след дълга разходка из града най-накрая стигаме до уютен ресторант 
-                и сядаме на маса до прозореца. Приятелски настроен сервитьор идва и бързо записва поръчката ни 
-                на малко листче. След това той отива в кухнята и закача листчето на стената. 
-                След известно време поръчката стига до готвача, който я прочита и приготвя ястието точно 
-                според записаното. Когато е готов, готвачът поставя ястието на табла заедно с листчето. 
-                Сервитьорът вижда таблата, проверява поръчката, за да е сигурен, че всичко е както трябва, 
-                и ни я поднася.
-            </p>
-
-            <p>
-                В тази аналогия хартиената поръчка играе ролята на <strong>команда</strong>. Тя може да стои 
-                в опашка, докато готвачът е свободен да я изпълни. Поръчката съдържа цялата необходима 
-                информация и позволява готвачът да започне работа веднага, без да се налага да идва лично 
-                при нас, за да уточнява детайлите.
-            </p>
-
-            <div class="image-center">
-                <img src="img/command/analogy.png" alt="Command analogy Diagram">
-            </div>
-            
-            <h2>Структура</h2>
-<p>По-долу е описана последователността на работа на Command шаблона чрез отделни елементи, представени като карти.</p>
-
-<div class="cards-container">
-
-    <!-- Invoker -->
-    <div class="card">
-        <h3>1. Изпращач (Invoker)</h3>
-        <p>Изпращачът е обектът, който стартира изпълнението на заявката. Той не знае какво точно прави командата — само знае, че може да бъде стартирана.</p>
-        <pre><code>
+            <pre><code>
 class Invoker:
     command
 
@@ -197,23 +204,28 @@ class Invoker:
     executeCommand():
         command.execute()
         </code></pre>
-    </div>
+          </div>
 
-    <!-- Command Interface -->
-    <div class="card">
-        <h3>2. Интерфейс Command</h3>
-        <p>Всички команди спазват общ интерфейс, който декларира метод <code>execute()</code>.</p>
-        <pre><code>
+          <!-- Command Interface -->
+          <div class="card">
+            <h3>2. Интерфейс Command</h3>
+            <p>
+              Всички команди спазват общ интерфейс, който декларира метод <code>execute()</code>.
+            </p>
+            <pre><code>
 interface Command:
     execute()
         </code></pre>
-    </div>
+          </div>
 
-    <!-- Concrete Commands -->
-    <div class="card">
-        <h3>3. Конкретни Команди</h3>
-        <p>Това са реалните команди. Те знаят кой е техният Приемник (Receiver) и му препращат заявката.</p>
-                <pre><code>
+          <!-- Concrete Commands -->
+          <div class="card">
+            <h3>3. Конкретни Команди</h3>
+            <p>
+              Това са реалните команди. Те знаят кой е техният Приемник (Receiver) и му препращат
+              заявката.
+            </p>
+            <pre><code>
 class ConcreteCommand implements Command:
     receiver
     params
@@ -225,134 +237,164 @@ class ConcreteCommand implements Command:
     execute():
         receiver.operation(params)
                 </code></pre>
-            </div>
+          </div>
 
-            <!-- Receiver -->
-            <div class="card">
-                <h3>4. Приемник (Receiver)</h3>
-                <p>Приемникът съдържа истинската бизнес логика. Командата само му подава информацията.</p>
-        <pre><code>
+          <!-- Receiver -->
+          <div class="card">
+            <h3>4. Приемник (Receiver)</h3>
+            <p>
+              Приемникът съдържа истинската бизнес логика. Командата само му подава информацията.
+            </p>
+            <pre><code>
 class Receiver:
     operation(a, b, c):
         // реалната бизнес логика
         </code></pre>
-            </div>
+          </div>
 
-            <!-- Client -->
-            <div class="card">
-                <h3>5. Клиент (Client)</h3>
-                <p>Клиентът създава Приемника, създава конкретната команда и я свързва с Изпращача.</p>
-                <pre><code>
+          <!-- Client -->
+          <div class="card">
+            <h3>5. Клиент (Client)</h3>
+            <p>Клиентът създава Приемника, създава конкретната команда и я свързва с Изпращача.</p>
+            <pre><code>
 client():
     receiver = new Receiver()
     command = new ConcreteCommand(receiver, params)
     button = new Invoker()
     button.setCommand(command)
         </code></pre>
-            </div>
-
+          </div>
         </div>
 
         <h3>Обобщена последователност</h3>
         <div class="sequence">
-            <div class="step"><strong>1.</strong> Клиентът създава Приемника.</div>
-            <div class="step"><strong>2.</strong> Клиентът създава Конкретна Команда и я свързва с Приемника.</div>
-            <div class="step"><strong>3.</strong> Клиентът подава Командата към Изпращача.</div>
-            <div class="step"><strong>4.</strong> Потребителят натиска бутон.</div>
-            <div class="step"><strong>5.</strong> Изпращачът изпълнява командата.</div>
-            <div class="step"><strong>6.</strong> Командата инструктира Приемника да извърши операцията.</div>
-            <div class="step"><strong>7.</strong> Приемникът изпълнява бизнес логиката.</div>
+          <div class="step"><strong>1.</strong> Клиентът създава Приемника.</div>
+          <div class="step">
+            <strong>2.</strong> Клиентът създава Конкретна Команда и я свързва с Приемника.
+          </div>
+          <div class="step"><strong>3.</strong> Клиентът подава Командата към Изпращача.</div>
+          <div class="step"><strong>4.</strong> Потребителят натиска бутон.</div>
+          <div class="step"><strong>5.</strong> Изпращачът изпълнява командата.</div>
+          <div class="step">
+            <strong>6.</strong> Командата инструктира Приемника да извърши операцията.
+          </div>
+          <div class="step"><strong>7.</strong> Приемникът изпълнява бизнес логиката.</div>
         </div>
-            
-            <h2>Пример на PHP</h2>
 
-            <div class="code-block">
-    <span class="comment">// Приемник</span>
-    <span class="keyword">class</span> <span class="obj">Editor</span> {
-        <span class="keyword">private</span> $text = <span class="str">""</span>;
+        <h2>Пример на PHP</h2>
 
-        <span class="keyword">public function</span> add($t) {
-            $this-&gt;text .= $t;
-        }
+        <div class="code-block">
+          <span class="comment">// Приемник</span>
+          <span class="keyword">class</span> <span class="obj">Editor</span> {
+          <span class="keyword">private</span> $text = <span class="str">""</span>;
 
-        <span class="keyword">public function</span> bold() {
-            $this-&gt;text = <span class="str">"&lt;b&gt;"</span> . $this-&gt;text . <span class="str">"&lt;/b&gt;"</span>;
-        }
+          <span class="keyword">public function</span> add($t) { $this-&gt;text .= $t; }
 
-        <span class="keyword">public function</span> get() { 
-            <span class="keyword">return</span> $this-&gt;text; 
-        }
-    }
+          <span class="keyword">public function</span> bold() { $this-&gt;text =
+          <span class="str">"&lt;b&gt;"</span> . $this-&gt;text .
+          <span class="str">"&lt;/b&gt;"</span>; }
 
-    <span class="comment">// Интерфейс Команда</span>
-    <span class="keyword">interface</span> <span class="obj">Command</span> {
-        <span class="keyword">public function</span> execute();
-    }
+          <span class="keyword">public function</span> get() {
+          <span class="keyword">return</span> $this-&gt;text; } }
 
-    <span class="comment">// Команди</span>
-    <span class="keyword">class</span> <span class="obj">AddText</span> <span class="keyword">implements</span> Command {
-        <span class="keyword">public function</span> __construct(<span class="keyword">private</span> $ed, <span class="keyword">private</span> $t) {}
-        <span class="keyword">public function</span> execute() { $this-&gt;ed-&gt;add($this-&gt;t); }
-    }
+          <span class="comment">// Интерфейс Команда</span>
+          <span class="keyword">interface</span> <span class="obj">Command</span> {
+          <span class="keyword">public function</span> execute(); }
 
-    <span class="keyword">class</span> <span class="obj">Bold</span> <span class="keyword">implements</span> Command {
-        <span class="keyword">public function</span> __construct(<span class="keyword">private</span> $ed) {}
-        <span class="keyword">public function</span> execute() { $this-&gt;ed-&gt;bold(); }
-    }
+          <span class="comment">// Команди</span>
+          <span class="keyword">class</span> <span class="obj">AddText</span>
+          <span class="keyword">implements</span> Command {
+          <span class="keyword">public function</span> __construct(<span class="keyword"
+            >private</span
+          >
+          $ed, <span class="keyword">private</span> $t) {}
+          <span class="keyword">public function</span> execute() {
+          $this-&gt;ed-&gt;add($this-&gt;t); } }
 
-    <span class="comment">// Изпращач (бутон)</span>
-    <span class="keyword">class</span> <span class="obj">Button</span> {
-        <span class="keyword">public function</span> __construct(<span class="keyword">private</span> $cmd) {}
-        <span class="keyword">public function</span> click() { $this-&gt;cmd-&gt;execute(); }
-    }
+          <span class="keyword">class</span> <span class="obj">Bold</span>
+          <span class="keyword">implements</span> Command {
+          <span class="keyword">public function</span> __construct(<span class="keyword"
+            >private</span
+          >
+          $ed) {} <span class="keyword">public function</span> execute() { $this-&gt;ed-&gt;bold();
+          } }
 
-    <span class="comment">// Демонстрация</span>
-    $ed = <span class="keyword">new</span> <span class="obj">Editor</span>();
-    $btnAdd  = <span class="keyword">new</span> <span class="obj">Button</span>( <span class="keyword">new</span> <span class="obj">AddText</span>($ed, <span class="str">"Здравей"</span>) );
-    $btnBold = <span class="keyword">new</span> <span class="obj">Button</span>( <span class="keyword">new</span> <span class="obj">Bold</span>($ed) );
+          <span class="comment">// Изпращач (бутон)</span>
+          <span class="keyword">class</span> <span class="obj">Button</span> {
+          <span class="keyword">public function</span> __construct(<span class="keyword"
+            >private</span
+          >
+          $cmd) {} <span class="keyword">public function</span> click() {
+          $this-&gt;cmd-&gt;execute(); } }
 
-    $btnAdd-&gt;click();
-    $btnBold-&gt;click();
+          <span class="comment">// Демонстрация</span>
+          $ed = <span class="keyword">new</span> <span class="obj">Editor</span>(); $btnAdd =
+          <span class="keyword">new</span> <span class="obj">Button</span>(
+          <span class="keyword">new</span> <span class="obj">AddText</span>($ed,
+          <span class="str">"Здравей"</span>) ); $btnBold = <span class="keyword">new</span>
+          <span class="obj">Button</span>( <span class="keyword">new</span>
+          <span class="obj">Bold</span>($ed) ); $btnAdd-&gt;click(); $btnBold-&gt;click();
 
-    <span class="keyword">echo</span> $ed-&gt;get();
-            </div>
+          <span class="keyword">echo</span> $ed-&gt;get();
+        </div>
 
-            <h3>Примерен изход</h3>
-            <div class="output-box" style="
-                background:#fff; border:1px solid #ccc; padding:12px; font-family:Arial;
-            ">
-                <b>Здравей</b>
-            </div>
+        <h3>Примерен изход</h3>
+        <div
+          class="output-box"
+          style="background: #fff; border: 1px solid #ccc; padding: 12px; font-family: Arial"
+        >
+          <b>Здравей</b>
+        </div>
 
-            <h2>Приложимост</h2>
-                <h3>Кога да използваме Command шаблона?</h3>
+        <h2>Приложимост</h2>
 
-                <h4>1. Когато искаме да параметризираме обекти с операции</h4>
-                <p>
-                    Командният шаблон позволява дадено действие да бъде превърнато в самостоятелен 
-                    обект. Това ни дава възможност да предаваме команди като аргументи на методи, 
-                    да ги съхраняваме вътре в други обекти или да ги разменяме динамично по време на изпълнение. 
-                    Например, когато изграждаме графичен интерфейс, можем да конфигурираме елементи 
-                    като контекстни менюта така, че всяка команда да описва операцията, която трябва да бъде изпълнена при кликване.
-                </p>
+        <div class="cards-container">
+          <!-- Card 1 -->
+          <div class="card">
+            <h3>1. Когато искаме да параметризираме обекти с операции</h3>
+            <p>
+              <strong>Command</strong> позволява едно действие да бъде превърнато в самостоятелен
+              обект. Така можем да предаваме команди като аргументи, да ги съхраняваме в други
+              обекти или да ги разменяме динамично по време на изпълнение.
+            </p>
+            <p>
+              Например при изграждане на графичен интерфейс можем да конфигурираме елементи като
+              контекстни менюта така, че всяка команда ясно да описва операцията, която ще се
+              изпълни при натискане.
+            </p>
+          </div>
 
-                <h4>2. Когато искаме да поставяме операции на опашка, да ги планираме или да ги изпълняваме отдалечено</h4>
-                <p>
-                    Тъй като командите са обекти, те могат да бъдат сериализирани, записани във файл или база данни, 
-                    изпратени по мрежата или поставени в опашка за последващо изпълнение. 
-                    Това ни позволява да отлагаме операции, да ги планираме за бъдещ момент 
-                    или да ги изпълняваме в различни контексти — например в друга машина или процес.
-                </p>
+          <!-- Card 2 -->
+          <div class="card">
+            <h3>
+              2. Когато искаме да поставяме операции на опашка, да ги планираме или да ги
+              изпълняваме отдалечено
+            </h3>
+            <p>
+              Понеже командите са обекти, можем да ги сериализираме, записваме във файлове или бази
+              данни, изпращаме по мрежата или поставяме в опашки за по-късно изпълнение.
+            </p>
+            <p>
+              Това ни позволява да отлагаме операции, да ги планираме във времето или да ги
+              изпълняваме в различни среди — включително на други машини или процеси.
+            </p>
+          </div>
 
-                <h4>3. Когато искаме да поддържаме отменяне и връщане на операции (undo/redo)</h4>
-                <p>
-                    Command шаблонът е сред най-популярните подходи за реализиране на история на действията. 
-                    Всяка изпълнена команда може да бъде запазена в стек, заедно с необходимите данни 
-                    за връщане към предишното състояние на приложението. Това позволява лесна имплементация 
-                    на функционалности като <em>Undo</em> и <em>Redo</em>.
-                </p>
-            
-        </main>
+          <!-- Card 3 -->
+          <div class="card">
+            <h3>3. Когато искаме да поддържаме отменяне и връщане на операции (Undo/Redo)</h3>
+            <p>
+              <strong>Command</strong> е един от най-често срещаните начини за реализиране на
+              история на действията. Всяка изпълнена команда може да бъде съхранена в стек заедно
+              със състоянието, необходимо за връщане назад.
+            </p>
+            <p>
+              Това позволява лесно изграждане на функционалности като <em>Undo</em> и <em>Redo</em>,
+              които са ключови в приложения за редактиране, UI системи и други интерактивни среди.
+            </p>
+          </div>
+        </div>
+      </main>
     </div>
-</body>
+  </body>
 </html>
