@@ -403,3 +403,14 @@ p {
   font-size: 19px;
   line-height: 1.65;
 }
+
+.submenu {
+  overflow: hidden;
+  max-height: 0 !important;
+  transition: max-height 0.35s ease;
+}
+
+/* когато е отворено */
+.show-submenu {
+  max-height: 1000px !important; /* гарантира, че има място */
+}
