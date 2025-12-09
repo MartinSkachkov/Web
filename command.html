@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Command Pattern - Поведенчески Шаблони</title>
     <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
   <body>
     <div class="container">
@@ -12,9 +16,14 @@
         <h2>Съдържание</h2>
         <nav>
           <ul>
-            <li><a href="index.html" class="nav-link">Начало</a></li>
+            <li>
+              <a href="index.html" class="nav-link"> <i class="fa-solid fa-house"></i> Начало </a>
+            </li>
+
             <li class="has-submenu">
-              <a href="command.html" class="nav-link" id="commandLink">Command</a>
+              <a href="command.html" class="nav-link" id="commandLink">
+                <i class="fa-solid fa-terminal"></i> Command
+              </a>
 
               <ul class="submenu" id="commandSubmenu">
                 <li><a href="command.html#goal">Цел</a></li>
@@ -26,16 +35,31 @@
                 <li><a href="command.html#usage">Приложимост</a></li>
               </ul>
             </li>
-            <li><a href="iterator.html" class="nav-link">Iterator</a></li>
-            <li><a href="observer.html" class="nav-link">Observer</a></li>
-            <li><a href="sources.html" class="nav-link">Източници</a></li>
+
+            <li>
+              <a href="iterator.html" class="nav-link">
+                <i class="fa-solid fa-repeat"></i> Iterator
+              </a>
+            </li>
+
+            <li>
+              <a href="observer.html" class="nav-link">
+                <i class="fa-solid fa-eye"></i> Observer
+              </a>
+            </li>
+
+            <li>
+              <a href="sources.html" class="nav-link">
+                <i class="fa-solid fa-book"></i> Източници
+              </a>
+            </li>
           </ul>
         </nav>
       </aside>
 
       <main class="main-content">
         <h1>Command Pattern</h1>
-        <div class="dropdown-container">
+        <!-- <div class="dropdown-container">
           <button class="dropdown-btn">Навигация в страницата ▾</button>
           <div class="dropdown-menu">
             <a href="#goal">Цел</a>
@@ -46,7 +70,7 @@
             <a href="#php-example">Пример на PHP</a>
             <a href="#usage">Приложимост</a>
           </div>
-        </div>
+        </div> -->
 
         <h2 id="goal">Цел</h2>
         <p>
@@ -70,6 +94,11 @@
 
         <div class="image-center">
           <img src="img/command/problem1.png" alt="Command problem1 Diagram" />
+
+          <p class="img-caption">
+            Всички бутони в приложението произлизат от един и същи клас
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </p>
         </div>
 
         <p>
@@ -80,6 +109,10 @@
 
         <div class="image-center">
           <img src="img/command/problem2.png" alt="Command problem2 Diagram" />
+          <p class="img-caption">
+            Много наследници на бутона. Какво може да се обърка?
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </p>
         </div>
 
         <div class="md-highlight">
@@ -104,6 +137,10 @@
 
         <div class="image-center">
           <img src="img/command/problem3.png" alt="Command problem3 Diagram" />
+          <p class="img-caption">
+            Няколко класа имплементират една и съща функционалност.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </p>
         </div>
 
         <h2 id="solution">Решение</h2>
@@ -124,6 +161,10 @@
 
         <div class="image-center">
           <img src="img/command/solution1.png" alt="Command solution1 Diagram" />
+          <p class="img-caption">
+            GUI обектите могат директно да достъпват обектите от бизнес логиката.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </p>
         </div>
 
         <p>
@@ -141,6 +182,10 @@
 
         <div class="image-center">
           <img src="img/command/solution2.png" alt="Command solution2 Diagram" />
+          <p class="img-caption">
+            Достъпване на бизнес логиката чрез команда.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </p>
         </div>
 
         <p>
@@ -164,6 +209,10 @@
 
         <div class="image-center">
           <img src="img/command/solution3.png" alt="Command solution3 Diagram" />
+          <p class="img-caption">
+            GUI обектите делегират работата към командите.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </p>
         </div>
 
         <p>
@@ -203,6 +252,10 @@
 
         <div class="image-center">
           <img src="img/command/analogy.png" alt="Command analogy Diagram" />
+          <p class="img-caption">
+            Правене на поръчка в ресторант като аналогия на Command шаблона.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </p>
         </div>
 
         <h2 id="structure">Структура</h2>

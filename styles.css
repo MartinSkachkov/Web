@@ -359,3 +359,47 @@ ul li {
 .show-submenu {
   display: block;
 }
+
+.img-caption {
+  text-align: center;
+  margin-top: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+.source-ref {
+  text-decoration: none;
+  color: #3366cc;
+  font-weight: bold;
+}
+
+.source-ref:hover {
+  text-decoration: underline;
+}
+
+/* Bubble highlight за H2 */
+.main-content h2 {
+  position: relative;
+  display: inline-block;
+  padding: 8px 14px;
+  margin: 40px 0 16px;
+  background: #e7f3ff; /* светлосин фон */
+  border-radius: 12px; /* балонче */
+  font-size: 1.8rem;
+  color: #2474ae; /* текстов цвят */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Малка сянка за по-добър релеф */
+.main-content h2 {
+  .main-content p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+p {
+  font-size: 19px;
+  line-height: 1.65;
+}

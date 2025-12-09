@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Iterator Pattern - Поведенчески Шаблони</title>
     <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
   <body>
     <div class="container">
@@ -12,23 +16,67 @@
         <h2>Съдържание</h2>
         <nav>
           <ul>
-            <li><a href="index.html" class="nav-link">Начало</a></li>
-            <li><a href="command.html" class="nav-link">Command</a></li>
+            <li>
+              <a href="index.html" class="nav-link"> <i class="fa-solid fa-house"></i> Начало </a>
+            </li>
+
+            <li>
+              <a href="command.html" class="nav-link">
+                <i class="fa-solid fa-terminal"></i> Command
+              </a>
+            </li>
+
             <li class="has-submenu">
-              <a href="iterator.html" class="nav-link" id="iteratorLink">Iterator</a>
+              <a href="iterator.html" class="nav-link" id="iteratorLink">
+                <i class="fa-solid fa-repeat"></i> Iterator
+              </a>
 
               <ul class="submenu" id="iteratorSubmenu">
-                <li><a href="iterator.html#goal">Цел</a></li>
-                <li><a href="iterator.html#problem">Проблем</a></li>
-                <li><a href="iterator.html#solution">Решение</a></li>
-                <li><a href="iterator.html#analogy">Аналогия</a></li>
-                <li><a href="iterator.html#structure">Структура</a></li>
-                <li><a href="iterator.html#php-example">Пример на PHP</a></li>
-                <li><a href="iterator.html#usage">Приложимост</a></li>
+                <li>
+                  <a href="iterator.html#goal"><i class="fa-solid fa-bullseye"></i> Цел</a>
+                </li>
+                <li>
+                  <a href="iterator.html#problem"
+                    ><i class="fa-solid fa-triangle-exclamation"></i> Проблем</a
+                  >
+                </li>
+                <li>
+                  <a href="iterator.html#solution"><i class="fa-solid fa-lightbulb"></i> Решение</a>
+                </li>
+                <li>
+                  <a href="iterator.html#analogy"
+                    ><i class="fa-solid fa-people-arrows"></i> Аналогия</a
+                  >
+                </li>
+                <li>
+                  <a href="iterator.html#structure"
+                    ><i class="fa-solid fa-diagram-project"></i> Структура</a
+                  >
+                </li>
+                <li>
+                  <a href="iterator.html#php-example"
+                    ><i class="fa-brands fa-php"></i> Пример на PHP</a
+                  >
+                </li>
+                <li>
+                  <a href="iterator.html#usage"
+                    ><i class="fa-solid fa-circle-check"></i> Приложимост</a
+                  >
+                </li>
               </ul>
             </li>
-            <li><a href="observer.html" class="nav-link">Observer</a></li>
-            <li><a href="sources.html" class="nav-link">Източници</a></li>
+
+            <li class="has-submenu">
+              <a href="observer.html" class="nav-link" id="observerLink">
+                <i class="fa-solid fa-eye"></i> Observer
+              </a>
+            </li>
+
+            <li>
+              <a href="sources.html" class="nav-link">
+                <i class="fa-solid fa-book"></i> Източници
+              </a>
+            </li>
           </ul>
         </nav>
       </aside>
@@ -36,7 +84,7 @@
       <main class="main-content">
         <h1>Iterator Pattern</h1>
 
-        <h2>Цел</h2>
+        <h2 id="goal">Цел</h2>
         <p>
           <strong>Iterator</strong> е поведенчески шаблон, който ни позволява да обхождаме
           елементите на една колекция, <strong>без да разкриваме вътрешната ѝ структура</strong> -
@@ -47,7 +95,7 @@
           <img src="img/iterator/iterator-intent.png" alt="Iterator Intent Diagram" />
         </div>
 
-        <h2>Проблем</h2>
+        <h2 id="problem">Проблем</h2>
         <p>
           Колекциите са едни от най-често използваните структури от данни в програмирането. По
           своята същност те представляват контейнери, които съхраняват групи от елементи.
@@ -60,6 +108,10 @@
 
         <div class="image-center">
           <img src="img/iterator/problem1.png" alt="Iterator problem1 Diagram" />
+          <div class="img-caption">
+            Различни типове колекции.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
         </div>
 
         <p>
@@ -77,6 +129,10 @@
 
         <div class="image-center">
           <img src="img/iterator/problem2.png" alt="Iterator problem2 Diagram" />
+          <div class="img-caption">
+            Една и съща колекция може да бъде обходена по няколко различни начина.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
         </div>
 
         <div class="md-highlight">
@@ -99,7 +155,7 @@
           колекции.
         </p>
 
-        <h2>Решение</h2>
+        <h2 id="solution">Решение</h2>
         <p>
           Основната идея на шаблона <strong>Iterator</strong> е да извади поведението за обхождане
           на дадена колекция в отделен обект, наречен <em>итератор</em>.
@@ -126,9 +182,14 @@
 
         <div class="image-center">
           <img src="img/iterator/solution1.png" alt="Iterator solution1 Diagram" />
+          <div class="img-caption">
+            Итераторите прилагат различни алгоритми за обхождане. Няколко итераторни обекта могат да
+            обхождат една и съща колекция едновременно.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
         </div>
 
-        <h2>Аналогия от Реалния Свят</h2>
+        <h2 id="analogy">Аналогия от Реалния Свят</h2>
         <p>
           Нека си представим, че искаме да посетим Рим за няколко дни и да обходим всички негови
           основни забележителности. Но когато пристигнем, лесно можем да изгубим часове в лутане,
@@ -149,6 +210,10 @@
 
         <div class="image-center">
           <img src="img/iterator/iterator-comic-1.png" alt="Iterator Real-World Diagram" />
+          <div class="img-caption">
+            Различни начини да обиколиш Рим.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
         </div>
 
         <p>
@@ -157,13 +222,13 @@
           забележителности, които Рим предлага.
         </p>
 
-        <h2>Структура</h2>
+        <h2 id="structure">Структура</h2>
         <div class="cards-container">
           <!-- Iterator Interface -->
           <div class="card">
             <h3>1. Интерфейс Iterator</h3>
             <p>
-              Декларира основните операции за обхождане на колекция – вземане на следващ елемент,
+              Декларира основните операции за обхождане на колекция - вземане на следващ елемент,
               проверка дали има още, връщане на текущата позиция и други.
             </p>
             <pre><code>
@@ -276,7 +341,7 @@ client():
           </div>
           <div class="step"><strong>3.</strong> Колекцията връща нов конкретен итератор.</div>
           <div class="step">
-            <strong>4.</strong> Клиентът започва обхождането чрез <code>hasNext()</code> и
+            <strong>4.</strong> Итераторът започва обхождането чрез <code>hasNext()</code> и
             <code>next()</code>.
           </div>
           <div class="step"><strong>5.</strong> Итераторът проследява текущата позиция сам.</div>
@@ -286,7 +351,7 @@ client():
           </div>
         </div>
 
-        <h2>Пример на PHP</h2>
+        <h2 id="php-example">Пример на PHP</h2>
 
         <div class="code-block">
           <span class="comment">// Интерфейс на Итератора</span>
@@ -345,7 +410,7 @@ client():
           Петър
         </div>
 
-        <h2>Приложимост</h2>
+        <h2 id="usage">Приложимост</h2>
         <div class="cards-container">
           <div class="card">
             <h3>1. Когато колекцията има сложна вътрешна структура</h3>

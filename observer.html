@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Observer Pattern - Поведенчески Шаблони</title>
     <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
   <body>
     <div class="container">
@@ -12,23 +16,67 @@
         <h2>Съдържание</h2>
         <nav>
           <ul>
-            <li><a href="index.html" class="nav-link">Начало</a></li>
-            <li><a href="command.html" class="nav-link">Command</a></li>
-            <li><a href="iterator.html" class="nav-link">Iterator</a></li>
+            <li>
+              <a href="index.html" class="nav-link"> <i class="fa-solid fa-house"></i> Начало </a>
+            </li>
+
+            <li>
+              <a href="command.html" class="nav-link">
+                <i class="fa-solid fa-terminal"></i> Command
+              </a>
+            </li>
+
+            <li>
+              <a href="iterator.html" class="nav-link">
+                <i class="fa-solid fa-repeat"></i> Iterator
+              </a>
+            </li>
+
             <li class="has-submenu">
-              <a href="observer.html" class="nav-link" id="observerLink">Observer</a>
+              <a href="observer.html" class="nav-link" id="observerLink">
+                <i class="fa-solid fa-eye"></i> Observer
+              </a>
 
               <ul class="submenu" id="observerSubmenu">
-                <li><a href="observer.html#goal">Цел</a></li>
-                <li><a href="observer.html#problem">Проблем</a></li>
-                <li><a href="observer.html#solution">Решение</a></li>
-                <li><a href="observer.html#analogy">Аналогия</a></li>
-                <li><a href="observer.html#structure">Структура</a></li>
-                <li><a href="observer.html#php-example">Пример на PHP</a></li>
-                <li><a href="observer.html#usage">Приложимост</a></li>
+                <li>
+                  <a href="observer.html#goal"><i class="fa-solid fa-bullseye"></i> Цел</a>
+                </li>
+                <li>
+                  <a href="observer.html#problem"
+                    ><i class="fa-solid fa-triangle-exclamation"></i> Проблем</a
+                  >
+                </li>
+                <li>
+                  <a href="observer.html#solution"><i class="fa-solid fa-lightbulb"></i> Решение</a>
+                </li>
+                <li>
+                  <a href="observer.html#analogy"
+                    ><i class="fa-solid fa-people-arrows"></i> Аналогия</a
+                  >
+                </li>
+                <li>
+                  <a href="observer.html#structure"
+                    ><i class="fa-solid fa-diagram-project"></i> Структура</a
+                  >
+                </li>
+                <li>
+                  <a href="observer.html#php-example"
+                    ><i class="fa-brands fa-php"></i> Пример на PHP</a
+                  >
+                </li>
+                <li>
+                  <a href="observer.html#usage"
+                    ><i class="fa-solid fa-circle-check"></i> Приложимост</a
+                  >
+                </li>
               </ul>
             </li>
-            <li><a href="sources.html" class="nav-link">Източници</a></li>
+
+            <li>
+              <a href="sources.html" class="nav-link">
+                <i class="fa-solid fa-book"></i> Източници
+              </a>
+            </li>
           </ul>
         </nav>
       </aside>
@@ -36,7 +84,7 @@
       <main class="main-content">
         <h1>Observer Pattern (Шаблон Наблюдател)</h1>
 
-        <h2>Цел</h2>
+        <h2 id="goal">Цел</h2>
         <p>
           <strong>Observer</strong> е поведенчески шаблон, който позволява да се създаде механизъм
           за абонамент, чрез който множество обекти могат автоматично да бъдат уведомявани при
@@ -56,7 +104,7 @@
           <img src="img/observer/observer.png" alt="Observer Observer Diagram" />
         </div>
 
-        <h2>Проблем</h2>
+        <h2 id="problem">Проблем</h2>
         <p>
           Нека си представим, че имаме два вида обекти: <code>Customer</code> и <code>Store</code>.
           Клиентът е силно заинтересован от определен продукт (например нов модел iPhone), който
@@ -77,6 +125,10 @@
 
         <div class="image-center">
           <img src="img/observer/observer-problem.png" alt="Observer problem Diagram" />
+          <div class="img-caption">
+            Посещение на магазина vs. изпращане на спам.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
         </div>
 
         <div class="md-highlight">
@@ -89,7 +141,7 @@
           </p>
         </div>
 
-        <h2>Решение</h2>
+        <h2 id="solution">Решение</h2>
         <p>
           Обектът, който притежава важно състояние, обикновено се нарича <em>subject</em>. Но тъй
           като той трябва да уведомява други обекти при промяна на това състояние, ще го наричаме
@@ -111,6 +163,10 @@
 
         <div class="image-center">
           <img src="img/observer/solution1.png" alt="Observer solution1 Diagram" />
+          <div class="img-caption">
+            Механизмът за абониране позволява на отделни обекти да получават известия за събития.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
         </div>
 
         <p>
@@ -134,6 +190,11 @@
 
         <div class="image-center">
           <img src="img/observer/solution2.png" alt="Observer solution2 Diagram" />
+          <div class="img-caption">
+            Публикуващият обект уведомява абонатите, като извиква техния конкретен метод за
+            известяване.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
         </div>
 
         <p>
@@ -144,10 +205,14 @@
           конкретни реализации.
         </p>
 
-        <h2>Аналогия от Реалния Свят (Real-World Analogy)</h2>
+        <h2 id="analogy">Аналогия от Реалния Свят</h2>
 
         <div class="image-center">
           <img src="img/observer/observer-analogy.png" alt="Observer Analogy Diagram" />
+          <div class="img-caption">
+            Абонаменти за вестници и списания.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
         </div>
 
         <p>
@@ -163,7 +228,7 @@
           издания.
         </p>
 
-        <h2>Структура</h2>
+        <h2 id="structure">Структура</h2>
         <div class="cards-container">
           <!-- Publisher -->
           <div class="card">
@@ -267,7 +332,7 @@ client():
           <div class="step"><strong>6.</strong> Абонатите реагират според логиката си.</div>
         </div>
 
-        <h2>Пример на PHP</h2>
+        <h2 id="php-example">Пример на PHP</h2>
 
         <div class="code-block">
           <span class="comment">// Интерфейс Наблюдател (Subscriber)</span>
@@ -335,7 +400,7 @@ client():
           Мария получи известие: Нов продукт наличен: iPhone 17
         </div>
 
-        <h2>Приложимост</h2>
+        <h2 id="usage">Приложимост</h2>
         <div class="cards-container">
           <div class="card">
             <h3>1. Когато промяна в едни обекти трябва да води до промяна в други</h3>
