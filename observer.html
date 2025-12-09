@@ -82,9 +82,9 @@
       </aside>
 
       <main class="main-content">
-        <h1>Observer Pattern (Шаблон Наблюдател)</h1>
+        <h1><i class="fa-solid fa-eye"></i> Observer Pattern</h1>
 
-        <h2 id="goal">Цел</h2>
+        <h2 id="goal"><i class="fa-solid fa-bullseye"></i> Цел</h2>
         <p>
           <strong>Observer</strong> е поведенчески шаблон, който позволява да се създаде механизъм
           за абонамент, чрез който множество обекти могат автоматично да бъдат уведомявани при
@@ -104,7 +104,7 @@
           <img src="img/observer/observer.png" alt="Observer Observer Diagram" />
         </div>
 
-        <h2 id="problem">Проблем</h2>
+        <h2 id="problem"><i class="fa-solid fa-triangle-exclamation"></i> Проблем</h2>
         <p>
           Нека си представим, че имаме два вида обекти: <code>Customer</code> и <code>Store</code>.
           Клиентът е силно заинтересован от определен продукт (например нов модел iPhone), който
@@ -141,7 +141,7 @@
           </p>
         </div>
 
-        <h2 id="solution">Решение</h2>
+        <h2 id="solution"><i class="fa-solid fa-lightbulb"></i> Решение</h2>
         <p>
           Обектът, който притежава важно състояние, обикновено се нарича <em>subject</em>. Но тъй
           като той трябва да уведомява други обекти при промяна на това състояние, ще го наричаме
@@ -205,7 +205,7 @@
           конкретни реализации.
         </p>
 
-        <h2 id="analogy">Аналогия от Реалния Свят</h2>
+        <h2 id="analogy"><i class="fa-solid fa-people-arrows"></i> Аналогия от Реалния Свят</h2>
 
         <div class="image-center">
           <img src="img/observer/observer-analogy.png" alt="Observer Analogy Diagram" />
@@ -228,7 +228,7 @@
           издания.
         </p>
 
-        <h2 id="structure">Структура</h2>
+        <h2 id="structure"><i class="fa-solid fa-diagram-project"></i> Структура</h2>
         <div class="cards-container">
           <!-- Publisher -->
           <div class="card">
@@ -332,75 +332,302 @@ client():
           <div class="step"><strong>6.</strong> Абонатите реагират според логиката си.</div>
         </div>
 
-        <h2 id="php-example">Пример на PHP</h2>
+        <h2 id="php-example"><i class="fa-brands fa-php"></i> Пример на PHP</h2>
+
+        <p>
+          Нека разгледаме конкретна имплементация на Observer pattern в PHP. Примерът демонстрира
+          как обект (Subject) може автоматично да уведомява множество наблюдатели (Observers) при
+          промяна на своето състояние. Използваме вградените PHP интерфейси
+          <code>SplSubject</code> и <code>SplObserver</code>.
+        </p>
+
+        <div class="cards-container">
+          <!-- User Class (Subject) -->
+          <div class="card">
+            <h3>📄 User.php (Subject - Наблюдаван обект)</h3>
+            <p>
+              Класът User имплементира <code>SplSubject</code> и поддържа списък от observers. При
+              промяна на имейла, автоматично уведомява всички наблюдатели.
+            </p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Observer;
+
+use SplSubject;
+use SplObjectStorage;
+use SplObserver;
+
+/**
+ * User имплементира наблюдавания обект (Subject).
+ * Поддържа списък от observers и ги уведомява
+ * при промени в обекта User.
+ */
+class User implements SplSubject
+{
+    private SplObjectStorage $observers;
+    private $email;
+
+    public function __construct()
+    {
+        $this->observers = new SplObjectStorage();
+    }
+
+    public function attach(SplObserver $observer): void
+    {
+        $this->observers->attach($observer);
+    }
+
+    public function detach(SplObserver $observer): void
+    {
+        $this->observers->detach($observer);
+    }
+
+    public function changeEmail(string $email): void
+    {
+        $this->email = $email;
+        $this->notify(); // Уведомяване на observers
+    }
+
+    public function notify(): void
+    {
+        /** @var SplObserver $observer */
+        foreach ($this->observers as $observer) {
+            $observer->update($this);
+        }
+    }
+}</code></pre>
+          </div>
+
+          <!-- UserObserver Class -->
+          <div class="card">
+            <h3>📄 UserObserver.php (Observer - Наблюдател)</h3>
+            <p>
+              Класът UserObserver имплементира <code>SplObserver</code> и получава уведомления при
+              всяка промяна в User обекта.
+            </p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Observer;
+
+use SplObserver;
+use SplSubject;
+
+class UserObserver implements SplObserver
+{
+    /**
+     * @var SplSubject[]
+     */
+    private array $changedUsers = [];
+
+    /**
+     * Извиква се от Subject,
+     * обикновено чрез SplSubject::notify()
+     */
+    public function update(SplSubject $subject): void
+    {
+        $this->changedUsers[] = clone $subject;
+    }
+
+    /**
+     * @return SplSubject[]
+     */
+    public function getChangedUsers(): array
+    {
+        return $this->changedUsers;
+    }
+}</code></pre>
+          </div>
+        </div>
+
+        <h3>🧪 Примерно използване и изход</h3>
+
+        <div class="note">
+          <strong>Сценарий 1:</strong> Създаваме потребител, прикачваме наблюдател и променяме
+          имейла.
+        </div>
 
         <div class="code-block">
-          <span class="comment">// Интерфейс Наблюдател (Subscriber)</span>
-          <span class="keyword">interface</span> <span class="obj">Observer</span> {
-          <span class="keyword">public function</span> update(<span class="obj">string</span> $msg);
-          }
+          <pre><code class="language-php">// Създаване на observer
+$observer = new UserObserver();
 
-          <span class="comment">// Интерфейс Издател (Publisher)</span>
-          <span class="keyword">interface</span> <span class="obj">Publisher</span> {
-          <span class="keyword">public function</span> subscribe(Observer $o);
-          <span class="keyword">public function</span> unsubscribe(Observer $o);
-          <span class="keyword">public function</span> notify(<span class="obj">string</span> $msg);
-          }
+// Създаване на user (subject)
+$user = new User();
 
-          <span class="comment">// Конкретен Издател</span>
-          <span class="keyword">class</span> <span class="obj">Store</span>
-          <span class="keyword">implements</span> <span class="obj">Publisher</span> {
-          <span class="keyword">private array</span> $subs = [];
+// Прикачаме observer към user
+$user->attach($observer);
 
-          <span class="keyword">public function</span> subscribe(Observer $o) { $this->subs[] = $o;
-          }
+// Променяме имейла - това автоматично уведомява observer-а
+$user->changeEmail('foo@bar.com');
 
-          <span class="keyword">public function</span> unsubscribe(Observer $o) { $this->subs =
-          array_filter($this->subs, fn($x) =&gt; $x !== $o); }
+// Проверяваме дали observer-ът е получил уведомление
+echo "Брой промени: " . count($observer->getChangedUsers());
+// Изход: Брой промени: 1
 
-          <span class="keyword">public function</span> notify(<span class="obj">string</span> $msg)
-          { <span class="keyword">foreach</span> ($this->subs as $s) { $s-&gt;update($msg); } }
-
-          <span class="comment">// Примерно събитие</span>
-          <span class="keyword">public function</span> newProduct(<span class="obj">string</span>
-          $p) { $this->notify(<span class="str">"Нов продукт наличен: "</span> . $p); } }
-
-          <span class="comment">// Конкретен Наблюдател</span>
-          <span class="keyword">class</span> <span class="obj">Customer</span>
-          <span class="keyword">implements</span> <span class="obj">Observer</span> {
-          <span class="keyword">public function</span> __construct(<span class="keyword"
-            >private</span
-          >
-          <span class="obj">string</span> $name) {}
-
-          <span class="keyword">public function</span> update(<span class="obj">string</span> $msg)
-          { <span class="keyword">echo</span> $this-&gt;name .
-          <span class="str">" получи известие: "</span> . $msg .
-          <span class="str">"&lt;br&gt;"</span>; } }
-
-          <span class="comment">// Клиент (демонстрация)</span>
-          $store = <span class="keyword">new</span> <span class="obj">Store</span>(); $c1 =
-          <span class="keyword">new</span> <span class="obj">Customer</span>(<span class="str"
-            >"Иван"</span
-          >); $c2 = <span class="keyword">new</span> <span class="obj">Customer</span>(<span
-            class="str"
-            >"Мария"</span
-          >); $store-&gt;subscribe($c1); $store-&gt;subscribe($c2); $store-&gt;newProduct(<span
-            class="str"
-            >"iPhone 17"</span
-          >);
+// Извличаме променените потребители
+$changedUsers = $observer->getChangedUsers();
+print_r($changedUsers);
+// Изход: Array със един User обект
+</code></pre>
         </div>
 
-        <h3>Примерен изход</h3>
-        <div
-          class="output-box"
-          style="background: #fff; border: 1px solid #ccc; padding: 12px; font-family: Arial"
-        >
-          Иван получи известие: Нов продукт наличен: iPhone 17<br />
-          Мария получи известие: Нов продукт наличен: iPhone 17
+        <div class="note">
+          <strong>Сценарий 2:</strong> Множество observers наблюдават един subject.
         </div>
 
-        <h2 id="usage">Приложимост</h2>
+        <div class="code-block">
+          <pre><code class="language-php">// Създаваме множество observers
+$observer1 = new UserObserver();
+$observer2 = new UserObserver();
+$observer3 = new UserObserver();
+
+$user = new User();
+
+// Прикачваме всички observers
+$user->attach($observer1);
+$user->attach($observer2);
+$user->attach($observer3);
+
+// Една промяна уведомява всички observers
+$user->changeEmail('john@example.com');
+
+echo "Observer 1 промени: " . count($observer1->getChangedUsers());
+echo "Observer 2 промени: " . count($observer2->getChangedUsers());
+echo "Observer 3 промени: " . count($observer3->getChangedUsers());
+
+// Изход:
+// Observer 1 промени: 1
+// Observer 2 промени: 1
+// Observer 3 промени: 1
+</code></pre>
+        </div>
+
+        <div class="note">
+          <strong>Сценарий 3:</strong> Откачаме observer и той спира да получава уведомления.
+        </div>
+
+        <div class="code-block">
+          <pre><code class="language-php">$observer = new UserObserver();
+$user = new User();
+
+$user->attach($observer);
+
+// Първа промяна - observer получава уведомление
+$user->changeEmail('first@example.com');
+echo "След първа промяна: " . count($observer->getChangedUsers());
+// Изход: След първа промяна: 1
+
+// Откачаме observer-а
+$user->detach($observer);
+
+// Втора промяна - observer НЕ получава уведомление
+$user->changeEmail('second@example.com');
+echo "След втора промяна: " . count($observer->getChangedUsers());
+// Изход: След втора промяна: 1 (без промяна!)
+</code></pre>
+        </div>
+
+        <h3>📊 Как работи Observer pattern тук?</h3>
+
+        <div class="sequence">
+          <div class="step">
+            <strong>1. Регистрация:</strong> Observer се регистрира чрез
+            <code>attach()</code> метода на Subject-а.
+          </div>
+          <div class="step">
+            <strong>2. Промяна на състояние:</strong> Когато се извика <code>changeEmail()</code>,
+            вътрешно се променя <code>$email</code>.
+          </div>
+          <div class="step">
+            <strong>3. Уведомяване:</strong> Автоматично се извиква <code>notify()</code>, който
+            минава през всички прикачени observers.
+          </div>
+          <div class="step">
+            <strong>4. Актуализация:</strong> Всеки observer получава извикване на своя
+            <code>update()</code> метод със Subject-а като параметър.
+          </div>
+          <div class="step">
+            <strong>5. Реакция:</strong> Observer-ът обработва уведомлението (в случая клонира User
+            обекта и го запазва).
+          </div>
+        </div>
+
+        <div class="md-highlight">
+          <strong>📌 Ключови моменти:</strong>
+          <ul>
+            <li>
+              <strong>SplSubject интерфейс</strong> изисква методите: <code>attach()</code>,
+              <code>detach()</code>, <code>notify()</code>
+            </li>
+            <li>
+              <strong>SplObserver интерфейс</strong> изисква метода:
+              <code>update(SplSubject $subject)</code>
+            </li>
+            <li>
+              <strong>SplObjectStorage</strong> се използва за съхранение на observers (по-ефективно
+              от масив за обекти)
+            </li>
+            <li>
+              <strong>clone</strong> се използва в <code>update()</code>, за да се запази snapshot
+              на състоянието
+            </li>
+            <li>
+              <strong>Слаба свързаност:</strong> Subject не знае конкретните типове на observers,
+              само че имплементират <code>SplObserver</code>
+            </li>
+            <li>
+              <strong>One-to-Many връзка:</strong> Един Subject може да има множество Observers
+            </li>
+          </ul>
+        </div>
+
+        <h3>🎯 Практически приложения</h3>
+        <p>
+          Този код демонстрира реална употреба на Observer pattern в практически сценарий. Когато
+          потребителят промени своя имейл, автоматично се задействат три независими операции:
+          изпраща се уведомителен имейл (<code>EmailNotifier</code>), промяната се записва в лог
+          системата (<code>Logger</code>) и съответният кеш се инвалидира
+          (<code>CacheInvalidator</code>). Всички тези действия се случват автоматично с един
+          единствен метод <code>changeEmail()</code>, без User класът да знае за тяхното
+          съществуване - това осигурява слаба свързаност и лесна разширяемост на системата.
+        </p>
+        <div class="code-block">
+          <pre><code class="language-php">// Практически пример с множество observers
+class EmailNotifier implements SplObserver {
+    public function update(SplSubject $subject): void {
+        echo "Изпращам имейл за промяна!
+";
+    }
+}
+
+class Logger implements SplObserver {
+    public function update(SplSubject $subject): void {
+        echo "Логвам промяната в базата данни!
+";
+    }
+}
+
+class CacheInvalidator implements SplObserver {
+    public function update(SplSubject $subject): void {
+        echo "Изчиствам кеша!
+";
+    }
+}
+
+$user = new User();
+$user->attach(new EmailNotifier());
+$user->attach(new Logger());
+$user->attach(new CacheInvalidator());
+
+$user->changeEmail('new@example.com');
+
+// Изход:
+// Изпращам имейл за промяна!
+// Логвам промяната в базата данни!
+// Изчиствам кеша!
+</code></pre>
+        </div>
+
+        <h2 id="usage"><i class="fa-solid fa-circle-check"></i> Приложимост</h2>
         <div class="cards-container">
           <div class="card">
             <h3>1. Когато промяна в едни обекти трябва да води до промяна в други</h3>

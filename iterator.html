@@ -82,9 +82,9 @@
       </aside>
 
       <main class="main-content">
-        <h1>Iterator Pattern</h1>
+        <h1><i class="fa-solid fa-repeat"></i> Iterator Pattern</h1>
 
-        <h2 id="goal">Цел</h2>
+        <h2 id="goal"><i class="fa-solid fa-bullseye"></i> Цел</h2>
         <p>
           <strong>Iterator</strong> е поведенчески шаблон, който ни позволява да обхождаме
           елементите на една колекция, <strong>без да разкриваме вътрешната ѝ структура</strong> -
@@ -95,7 +95,7 @@
           <img src="img/iterator/iterator-intent.png" alt="Iterator Intent Diagram" />
         </div>
 
-        <h2 id="problem">Проблем</h2>
+        <h2 id="problem"><i class="fa-solid fa-triangle-exclamation"></i> Проблем</h2>
         <p>
           Колекциите са едни от най-често използваните структури от данни в програмирането. По
           своята същност те представляват контейнери, които съхраняват групи от елементи.
@@ -155,7 +155,7 @@
           колекции.
         </p>
 
-        <h2 id="solution">Решение</h2>
+        <h2 id="solution"><i class="fa-solid fa-lightbulb"></i> Решение</h2>
         <p>
           Основната идея на шаблона <strong>Iterator</strong> е да извади поведението за обхождане
           на дадена колекция в отделен обект, наречен <em>итератор</em>.
@@ -189,7 +189,7 @@
           </div>
         </div>
 
-        <h2 id="analogy">Аналогия от Реалния Свят</h2>
+        <h2 id="analogy"><i class="fa-solid fa-people-arrows"></i> Аналогия от Реалния Свят</h2>
         <p>
           Нека си представим, че искаме да посетим Рим за няколко дни и да обходим всички негови
           основни забележителности. Но когато пристигнем, лесно можем да изгубим часове в лутане,
@@ -222,7 +222,7 @@
           забележителности, които Рим предлага.
         </p>
 
-        <h2 id="structure">Структура</h2>
+        <h2 id="structure"><i class="fa-solid fa-diagram-project"></i> Структура</h2>
         <div class="cards-container">
           <!-- Iterator Interface -->
           <div class="card">
@@ -351,66 +351,249 @@ client():
           </div>
         </div>
 
-        <h2 id="php-example">Пример на PHP</h2>
+        <h2 id="php-example"><i class="fa-brands fa-php"></i> Пример на PHP</h2>
+
+        <p>
+          Нека разгледаме конкретна имплементация на Iterator pattern в PHP. Примерът демонстрира
+          как можем да създадем колекция от книги, която имплементира стандартните PHP интерфейси
+          <code>Iterator</code> и <code>Countable</code>, позволявайки ни да итерираме през книгите
+          с <code>foreach</code>.
+        </p>
+
+        <div class="cards-container">
+          <!-- Book Class -->
+          <div class="card">
+            <h3>📄 Book.php (Обект за итериране)</h3>
+            <p>Прост клас, представящ книга с автор и заглавие.</p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Iterator;
+
+class Book
+{
+    public function __construct(
+        private string $title, 
+        private string $author
+    ) {
+    }
+
+    public function getAuthor(): string
+    {
+        return $this->author;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getAuthorAndTitle(): string
+    {
+        return $this->getTitle() . ' by ' . $this->getAuthor();
+    }
+}</code></pre>
+          </div>
+
+          <!-- BookList Class -->
+          <div class="card">
+            <h3>📄 BookList.php (Итератор колекция)</h3>
+            <p>
+              Колекция от книги, която имплементира <code>Iterator</code> и
+              <code>Countable</code> интерфейсите, позволявайки итериране с <code>foreach</code>.
+            </p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Iterator;
+
+use Countable;
+use Iterator;
+
+class BookList implements Countable, Iterator
+{
+    private array $books = [];
+    private int $currentIndex = 0;
+
+    public function addBook(Book $book)
+    {
+        $this->books[] = $book;
+    }
+
+    public function removeBook(Book $bookToRemove)
+    {
+        foreach ($this->books as $key => $book) {
+            if ($book->getAuthorAndTitle() === $bookToRemove->getAuthorAndTitle()) {
+                unset($this->books[$key]);
+            }
+        }
+        // Пренареждане на индексите
+        $this->books = array_values($this->books);
+    }
+
+    // Countable интерфейс
+    public function count(): int
+    {
+        return count($this->books);
+    }
+
+    // Iterator интерфейс методи
+    public function current(): Book
+    {
+        return $this->books[$this->currentIndex];
+    }
+
+    public function key(): int
+    {
+        return $this->currentIndex;
+    }
+
+    public function next(): void
+    {
+        $this->currentIndex++;
+    }
+
+    public function rewind(): void
+    {
+        $this->currentIndex = 0;
+    }
+
+    public function valid(): bool
+    {
+        return isset($this->books[$this->currentIndex]);
+    }
+}</code></pre>
+          </div>
+        </div>
+
+        <h3>🧪 Примерно използване и изход</h3>
+
+        <div class="note">
+          <strong>Сценарий 1:</strong> Добавяме книги и итерираме през тях с <code>foreach</code>.
+        </div>
 
         <div class="code-block">
-          <span class="comment">// Интерфейс на Итератора</span>
-          <span class="keyword">interface</span> <span class="obj">IteratorInterface</span> {
-          <span class="keyword">public function</span> current();
-          <span class="keyword">public function</span> next();
-          <span class="keyword">public function</span> hasNext(): <span class="obj">bool</span>; }
+          <pre><code class="language-php">// Създаване на колекция
+$bookList = new BookList();
 
-          <span class="comment">// Конкретен Итератор</span>
-          <span class="keyword">class</span> <span class="obj">NameIterator</span>
-          <span class="keyword">implements</span> <span class="obj">IteratorInterface</span> {
-          <span class="keyword">private</span> <span class="obj">array</span> $names;
-          <span class="keyword">private</span> <span class="obj">int</span> $pos =
-          <span class="str">0</span>;
+// Добавяне на книги
+$bookList->addBook(new Book('Learning PHP Design Patterns', 'William Sanders'));
+$bookList->addBook(new Book('Professional Php Design Patterns', 'Aaron Saray'));
+$bookList->addBook(new Book('Clean Code', 'Robert C. Martin'));
 
-          <span class="keyword">public function</span> __construct(<span class="obj">array</span>
-          $n) { $this->names = $n; }
+// Итериране през книгите
+$books = [];
+foreach ($bookList as $book) {
+    $books[] = $book->getAuthorAndTitle();
+}
 
-          <span class="keyword">public function</span> current() {
-          <span class="keyword">return</span> $this->names[$this->pos]; }
+print_r($books);
 
-          <span class="keyword">public function</span> next() { $this->pos++; }
-
-          <span class="keyword">public function</span> hasNext(): <span class="obj">bool</span> {
-          <span class="keyword">return</span> $this->pos &lt; count($this->names); } }
-
-          <span class="comment">// Колекция</span>
-          <span class="keyword">class</span> <span class="obj">NameCollection</span> {
-          <span class="keyword">private</span> <span class="obj">array</span> $data = [];
-
-          <span class="keyword">public function</span> addName(<span class="obj">string</span> $n) {
-          $this->data[] = $n; }
-
-          <span class="keyword">public function</span> getIterator():
-          <span class="obj">IteratorInterface</span> { <span class="keyword">return new</span>
-          <span class="obj">NameIterator</span>($this->data); } }
-
-          <span class="comment">// Клиент (демонстрация)</span>
-          $col = <span class="keyword">new</span> <span class="obj">NameCollection</span>();
-          $col-&gt;addName(<span class="str">"Иван"</span>); $col-&gt;addName(<span class="str"
-            >"Мария"</span
-          >); $col-&gt;addName(<span class="str">"Петър"</span>); $it = $col-&gt;getIterator();
-
-          <span class="keyword">while</span> ($it-&gt;hasNext()) {
-          <span class="keyword">echo</span> $it-&gt;current() .
-          <span class="str">"&lt;br&gt;"</span>; $it-&gt;next(); }
+// Изход:
+// Array
+// (
+//     [0] => Learning PHP Design Patterns by William Sanders
+//     [1] => Professional Php Design Patterns by Aaron Saray
+//     [2] => Clean Code by Robert C. Martin
+// )
+</code></pre>
         </div>
 
-        <h3>Примерен изход</h3>
-        <div
-          class="output-box"
-          style="background: #fff; border: 1px solid #ccc; padding: 12px; font-family: Arial"
-        >
-          Иван<br />
-          Мария<br />
-          Петър
+        <div class="note">
+          <strong>Сценарий 2:</strong> Премахваме книга от колекцията и итерираме отново.
         </div>
 
-        <h2 id="usage">Приложимост</h2>
+        <div class="code-block">
+          <pre><code class="language-php">$book = new Book('Clean Code', 'Robert C. Martin');
+$book2 = new Book('Professional Php Design Patterns', 'Aaron Saray');
+
+$bookList = new BookList();
+$bookList->addBook($book);
+$bookList->addBook($book2);
+
+// Премахваме първата книга
+$bookList->removeBook($book);
+
+$books = [];
+foreach ($bookList as $book) {
+    $books[] = $book->getAuthorAndTitle();
+}
+
+print_r($books);
+
+// Изход:
+// Array
+// (
+//     [0] => Professional Php Design Patterns by Aaron Saray
+// )
+</code></pre>
+        </div>
+
+        <div class="note">
+          <strong>Сценарий 3:</strong> Използваме <code>count()</code> за броене на книгите.
+        </div>
+
+        <div class="code-block">
+          <pre><code class="language-php">$bookList = new BookList();
+$bookList->addBook(new Book('Clean Code', 'Robert C. Martin'));
+
+echo "Брой книги: " . count($bookList);
+// Изход: Брой книги: 1
+
+$bookList->removeBook(new Book('Clean Code', 'Robert C. Martin'));
+
+echo "Брой книги след премахване: " . count($bookList);
+// Изход: Брой книги след премахване: 0
+</code></pre>
+        </div>
+
+        <h3>📊 Какво прави Iterator pattern тук?</h3>
+
+        <div class="sequence">
+          <div class="step">
+            <strong>1. Скриване на вътрешната структура:</strong> Клиентският код не знае, че
+            книгите се съхраняват в масив <code>$books</code>.
+          </div>
+          <div class="step">
+            <strong>2. Стандартен интерфейс:</strong> Имплементирайки <code>Iterator</code>,
+            колекцията работи с <code>foreach</code> циклите на PHP.
+          </div>
+          <div class="step">
+            <strong>3. Контрол на достъпа:</strong> Можем да добавяме логика в методите на итератора
+            (напр. филтриране, валидация).
+          </div>
+          <div class="step">
+            <strong>4. Единна точка за промяна:</strong> Ако решим да използваме LinkedList вместо
+            масив, клиентският код остава непроменен.
+          </div>
+        </div>
+
+        <div class="md-highlight">
+          <strong>📌 Ключови моменти:</strong>
+          <ul>
+            <li>
+              <strong>Iterator интерфейс</strong> изисква методите: <code>current()</code>,
+              <code>key()</code>, <code>next()</code>, <code>rewind()</code>, <code>valid()</code>
+            </li>
+            <li>
+              <strong>Countable интерфейс</strong> позволява <code>count($bookList)</code> да работи
+              директно
+            </li>
+            <li><strong>foreach</strong> автоматично извиква методите на Iterator интерфейса</li>
+            <li>
+              <strong>removeBook()</strong> преиндексира масива с <code>array_values()</code>, за да
+              избегне празни индекси
+            </li>
+            <li>Клиентският код не знае как са организирани книгите вътрешно (енкапсулация)</li>
+          </ul>
+        </div>
+
+        <div class="note">
+          <strong>💡 Забележка:</strong> PHP предоставя вградени интерфейси <code>Iterator</code> и
+          <code>IteratorAggregate</code>, които правят имплементацията на pattern-а много елегантна.
+          За по-сложни сценарии може да се използва <code>IteratorAggregate</code> с
+          <code>ArrayIterator</code>.
+        </div>
+
+        <h2 id="usage"><i class="fa-solid fa-circle-check"></i> Приложимост</h2>
         <div class="cards-container">
           <div class="card">
             <h3>1. Когато колекцията има сложна вътрешна структура</h3>

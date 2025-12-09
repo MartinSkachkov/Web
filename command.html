@@ -82,7 +82,7 @@
       </aside>
 
       <main class="main-content">
-        <h1>Command Pattern</h1>
+        <h1><i class="fa-solid fa-terminal"></i> Command Pattern</h1>
         <!-- <div class="dropdown-container">
           <button class="dropdown-btn">Навигация в страницата ▾</button>
           <div class="dropdown-menu">
@@ -96,7 +96,7 @@
           </div>
         </div> -->
 
-        <h2 id="goal">Цел</h2>
+        <h2 id="goal"><i class="fa-solid fa-bullseye"></i> Цел</h2>
         <p>
           <strong>Command</strong> е шаблон, който ни помага да превърнем една
           <strong>операция в отделен обект</strong>. Така всяка „команда“ се държи като нещо
@@ -109,9 +109,9 @@
           <img src="img/command/intent.png" alt="Command Intent Diagram" />
         </div>
 
-        <h2 id="problem">Проблем</h2>
+        <h2 id="problem"><i class="fa-solid fa-triangle-exclamation"></i> Проблем</h2>
         <p>
-          Нека си представим, че разработват нов текстов редактор. В него има лента с бутони –
+          Нека си представим, че разработваме нов текстов редактор. В него има лента с бутони –
           копиране, поставяне, изтриване и други. Те имат <strong>общ клас за бутон</strong>
           <code>Button</code>, който могат да използват навсякъде в приложението.
         </p>
@@ -167,7 +167,7 @@
           </p>
         </div>
 
-        <h2 id="solution">Решение</h2>
+        <h2 id="solution"><i class="fa-solid fa-lightbulb"></i> Решение</h2>
         <p>
           Добрата софтуерна архитектура често се основава на принципа
           <strong>разделяне на отговорностите</strong>. Това обикновено означава приложението да
@@ -256,7 +256,7 @@
           между GUI и бизнес логиката и прави системата по-гъвкава и лесна за поддръжка.
         </p>
 
-        <h2 id="analogy">Аналогия от Реалния Свят</h2>
+        <h2 id="analogy"><i class="fa-solid fa-people-arrows"></i> Аналогия от Реалния Свят</h2>
         <p>
           Нека да си представим, че след дълга разходка из града най-накрая стигаме до уютен
           ресторант и сядаме на маса до прозореца. Приятелски настроен сервитьор идва и бързо
@@ -282,7 +282,7 @@
           </p>
         </div>
 
-        <h2 id="structure">Структура</h2>
+        <h2 id="structure"><i class="fa-solid fa-diagram-project"></i> Структура</h2>
         <p>
           По-долу е описана последователността на работа на Command шаблона чрез отделни елементи,
           представени като карти.
@@ -370,85 +370,238 @@ client():
 
         <h3>Обобщена последователност</h3>
         <div class="sequence">
-          <div class="step"><strong>1.</strong> Клиентът създава Приемника.</div>
+          <div class="step"><strong>1.</strong> Клиентът създава приемника.</div>
           <div class="step">
-            <strong>2.</strong> Клиентът създава Конкретна Команда и я свързва с Приемника.
+            <strong>2.</strong> Клиентът създава конкретна команда и я свързва с приемника.
           </div>
-          <div class="step"><strong>3.</strong> Клиентът подава Командата към Изпращача.</div>
+          <div class="step"><strong>3.</strong> Клиентът подава командата към изпращача.</div>
           <div class="step"><strong>4.</strong> Потребителят натиска бутон.</div>
           <div class="step"><strong>5.</strong> Изпращачът изпълнява командата.</div>
           <div class="step">
-            <strong>6.</strong> Командата инструктира Приемника да извърши операцията.
+            <strong>6.</strong> Командата инструктира приемника да извърши операцията.
           </div>
           <div class="step"><strong>7.</strong> Приемникът изпълнява бизнес логиката.</div>
         </div>
 
-        <h2 id="php-example">Пример на PHP</h2>
+        <h2 id="php-example"><i class="fa-brands fa-php"></i> Пример на PHP</h2>
+
+        <p>
+          Нека разгледаме конкретна имплементация на Command pattern в PHP. Примерът демонстрира как
+          различни команди могат да взаимодействат с един Receiver (приемник), като Invoker
+          (изпращач) изпълнява командите без да знае техните вътрешни детайли.
+        </p>
+
+        <div class="cards-container">
+          <!-- Command Interface -->
+          <div class="card">
+            <h3>📄 Command.php (Интерфейс)</h3>
+            <p>
+              Основният интерфейс, който дефинира метода <code>execute()</code> за всички команди.
+            </p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Command;
+
+interface Command
+{
+    /**
+     * Най-важният метод в Command pattern.
+     * Receiver-ът се подава в конструктора.
+     */
+    public function execute();
+}</code></pre>
+          </div>
+
+          <!-- UndoableCommand Interface -->
+          <div class="card">
+            <h3>📄 UndoableCommand.php (Разширен интерфейс)</h3>
+            <p>Разширява Command с възможност за отмяна на изпълнената операция.</p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Command;
+
+interface UndoableCommand extends Command
+{
+    /**
+     * Метод за отмяна на промените,
+     * направени от execute()
+     */
+    public function undo();
+}</code></pre>
+          </div>
+
+          <!-- Receiver -->
+          <div class="card">
+            <h3>📄 Receiver.php (Приемник)</h3>
+            <p>
+              Класът, който извършва реалната работа. Той съдържа бизнес логиката за обработка на
+              съобщения.
+            </p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Command;
+
+class Receiver
+{
+    private bool $enableDate = false;
+    private array $output = [];
+
+    public function write(string $str)
+    {
+        if ($this->enableDate) {
+            $str .= ' [' . date('Y-m-d') . ']';
+        }
+        $this->output[] = $str;
+    }
+
+    public function getOutput(): string
+    {
+        return join("\n", $this->output);
+    }
+
+    public function enableDate()
+    {
+        $this->enableDate = true;
+    }
+
+    public function disableDate()
+    {
+        $this->enableDate = false;
+    }
+}</code></pre>
+          </div>
+
+          <!-- HelloCommand -->
+          <div class="card">
+            <h3>📄 HelloCommand.php (Конкретна команда)</h3>
+            <p>Проста команда, която извиква метода <code>write()</code> на Receiver-а.</p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Command;
+
+class HelloCommand implements Command
+{
+    public function __construct(private Receiver $output)
+    {
+    }
+
+    public function execute()
+    {
+        $this->output->write('Hello World');
+    }
+}</code></pre>
+          </div>
+
+          <!-- AddMessageDateCommand -->
+          <div class="card">
+            <h3>📄 AddMessageDateCommand.php (Команда с Undo)</h3>
+            <p>Команда, която активира/деактивира показването на дата в съобщенията.</p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Command;
+
+class AddMessageDateCommand implements UndoableCommand
+{
+    public function __construct(private Receiver $output)
+    {
+    }
+
+    public function execute()
+    {
+        $this->output->enableDate();
+    }
+
+    public function undo()
+    {
+        $this->output->disableDate();
+    }
+}</code></pre>
+          </div>
+
+          <!-- Invoker -->
+          <div class="card">
+            <h3>📄 Invoker.php (Призовател)</h3>
+            <p>Invoker-ът не знае какво прави командата - просто я изпълнява.</p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Command;
+
+class Invoker
+{
+    private Command $command;
+
+    public function setCommand(Command $cmd)
+    {
+        $this->command = $cmd;
+    }
+
+    public function run()
+    {
+        $this->command->execute();
+    }
+}</code></pre>
+          </div>
+        </div>
+
+        <h3>🧪 Примерно използване и изход</h3>
+
+        <div class="note">
+          <strong>Сценарий:</strong> Създаваме Invoker и Receiver, изпълняваме команди и след това
+          активираме датата и правим undo.
+        </div>
 
         <div class="code-block">
-          <span class="comment">// Приемник</span>
-          <span class="keyword">class</span> <span class="obj">Editor</span> {
-          <span class="keyword">private</span> $text = <span class="str">""</span>;
+          <pre><code class="language-php">// Създаване на обекти
+$invoker = new Invoker();
+$receiver = new Receiver();
 
-          <span class="keyword">public function</span> add($t) { $this-&gt;text .= $t; }
+// Изпълнение на HelloCommand
+$invoker->setCommand(new HelloCommand($receiver));
+$invoker->run();
 
-          <span class="keyword">public function</span> bold() { $this-&gt;text =
-          <span class="str">"&lt;b&gt;"</span> . $this-&gt;text .
-          <span class="str">"&lt;/b&gt;"</span>; }
+echo $receiver->getOutput();
+// Изход: Hello World
 
-          <span class="keyword">public function</span> get() {
-          <span class="keyword">return</span> $this-&gt;text; } }
+// Активиране на датата
+$dateCommand = new AddMessageDateCommand($receiver);
+$dateCommand->execute();
 
-          <span class="comment">// Интерфейс Команда</span>
-          <span class="keyword">interface</span> <span class="obj">Command</span> {
-          <span class="keyword">public function</span> execute(); }
+// Ново изпълнение
+$invoker->run();
 
-          <span class="comment">// Команди</span>
-          <span class="keyword">class</span> <span class="obj">AddText</span>
-          <span class="keyword">implements</span> Command {
-          <span class="keyword">public function</span> __construct(<span class="keyword"
-            >private</span
-          >
-          $ed, <span class="keyword">private</span> $t) {}
-          <span class="keyword">public function</span> execute() {
-          $this-&gt;ed-&gt;add($this-&gt;t); } }
+echo $receiver->getOutput();
+// Изход: 
+// Hello World
+// Hello World [2024-12-09]
 
-          <span class="keyword">class</span> <span class="obj">Bold</span>
-          <span class="keyword">implements</span> Command {
-          <span class="keyword">public function</span> __construct(<span class="keyword"
-            >private</span
-          >
-          $ed) {} <span class="keyword">public function</span> execute() { $this-&gt;ed-&gt;bold();
-          } }
+// Отмяна на датата
+$dateCommand->undo();
 
-          <span class="comment">// Изпращач (бутон)</span>
-          <span class="keyword">class</span> <span class="obj">Button</span> {
-          <span class="keyword">public function</span> __construct(<span class="keyword"
-            >private</span
-          >
-          $cmd) {} <span class="keyword">public function</span> click() {
-          $this-&gt;cmd-&gt;execute(); } }
+// Ново изпълнение
+$invoker->run();
 
-          <span class="comment">// Демонстрация</span>
-          $ed = <span class="keyword">new</span> <span class="obj">Editor</span>(); $btnAdd =
-          <span class="keyword">new</span> <span class="obj">Button</span>(
-          <span class="keyword">new</span> <span class="obj">AddText</span>($ed,
-          <span class="str">"Здравей"</span>) ); $btnBold = <span class="keyword">new</span>
-          <span class="obj">Button</span>( <span class="keyword">new</span>
-          <span class="obj">Bold</span>($ed) ); $btnAdd-&gt;click(); $btnBold-&gt;click();
-
-          <span class="keyword">echo</span> $ed-&gt;get();
+echo $receiver->getOutput();
+// Изход:
+// Hello World
+// Hello World [2024-12-09]
+// Hello World
+</code></pre>
         </div>
 
-        <h3>Примерен изход</h3>
-        <div
-          class="output-box"
-          style="background: #fff; border: 1px solid #ccc; padding: 12px; font-family: Arial"
-        >
-          <b>Здравей</b>
+        <div class="md-highlight">
+          <strong>📌 Ключови моменти:</strong>
+          <ul>
+            <li>
+              <strong>Receiver</strong> съдържа бизнес логиката (write, enableDate, disableDate)
+            </li>
+            <li><strong>Command</strong> класовете капсулират заявките като обекти</li>
+            <li><strong>Invoker</strong> не знае нищо за Receiver-а - само изпълнява команди</li>
+            <li><strong>UndoableCommand</strong> позволява отмяна на операции</li>
+            <li>Можем лесно да добавяме нови команди без да променяме Invoker-а</li>
+          </ul>
         </div>
 
-        <h2 id="usage">Приложимост</h2>
+        <h2 id="usage"><i class="fa-solid fa-circle-check"></i> Приложимост</h2>
 
         <div class="cards-container">
           <!-- Card 1 -->
