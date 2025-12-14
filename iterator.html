@@ -1,53 +1,648 @@
 <!DOCTYPE html>
 <html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Iterator Pattern - Поведенчески Шаблони</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="container">
-        <aside class="sidebar">
-            <h2>Съдържание</h2>
-            <nav>
-                <ul>
-                    <li><a href="index.html" class="nav-link">Начало</a></li>
-                    <li><a href="command.html" class="nav-link">Command</a></li>
-                    <li><a href="iterator.html" class="nav-link active">Iterator</a></li>
-                    <li><a href="observer.html" class="nav-link">Observer</a></li>
-                </ul>
-            </nav>
-        </aside>
+      <aside class="sidebar">
+        <h2>Съдържание</h2>
+        <nav>
+          <ul>
+            <li>
+              <a href="index.html" class="nav-link"> <i class="fa-solid fa-house"></i> Начало </a>
+            </li>
 
-        <main class="main-content">
-            <h1>Iterator Pattern</h1>
-            
-            <h2>Цел (Intent)</h2>
-            <p>[Текст за Intent]</p>
-            
-            <h2>Проблем (Problem)</h2>
-            <p>[Текст за Problem]</p>
-            
-            <h2>Решение (Solution)</h2>
-            <p>[Текст за Solution]</p>
-            
-            <h2>Аналогия от Реалния Свят (Real-World Analogy)</h2>
-            <p>[Текст за Real-World Analogy]</p>
-            
-            <h2>Структура (Structure)</h2>
-            <div class="structure-diagram">
-                <p>[Тук ще добавите диаграма или описание на структурата]</p>
-            </div>
-            
-            <h2>Приложимост (Applicability)</h2>
-            <p>[Текст за Applicability]</p>
-            
-            <h2>Пример на PHP</h2>
-            <div class="code-block">
-                <pre><code>[PHP код]</code></pre>
-            </div>
-        </main>
+            <li>
+              <a href="command.html" class="nav-link">
+                <i class="fa-solid fa-terminal"></i> Command
+              </a>
+            </li>
+
+            <li class="has-submenu">
+              <a href="iterator.html" class="nav-link" id="iteratorLink">
+                <i class="fa-solid fa-repeat"></i> Iterator
+              </a>
+
+              <ul class="submenu" id="iteratorSubmenu">
+                <li>
+                  <a href="iterator.html#goal"><i class="fa-solid fa-bullseye"></i> Цел</a>
+                </li>
+                <li>
+                  <a href="iterator.html#problem"
+                    ><i class="fa-solid fa-triangle-exclamation"></i> Проблем</a
+                  >
+                </li>
+                <li>
+                  <a href="iterator.html#solution"><i class="fa-solid fa-lightbulb"></i> Решение</a>
+                </li>
+                <li>
+                  <a href="iterator.html#analogy"
+                    ><i class="fa-solid fa-people-arrows"></i> Аналогия</a
+                  >
+                </li>
+                <li>
+                  <a href="iterator.html#structure"
+                    ><i class="fa-solid fa-diagram-project"></i> Структура</a
+                  >
+                </li>
+                <li>
+                  <a href="iterator.html#php-example"
+                    ><i class="fa-brands fa-php"></i> Пример на PHP</a
+                  >
+                </li>
+                <li>
+                  <a href="iterator.html#usage"
+                    ><i class="fa-solid fa-circle-check"></i> Приложимост</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <li class="has-submenu">
+              <a href="observer.html" class="nav-link" id="observerLink">
+                <i class="fa-solid fa-eye"></i> Observer
+              </a>
+            </li>
+
+            <li>
+              <a href="sources.html" class="nav-link">
+                <i class="fa-solid fa-book"></i> Източници
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <h1><i class="fa-solid fa-repeat"></i> Iterator Pattern</h1>
+
+        <h2 id="goal"><i class="fa-solid fa-bullseye"></i> Цел</h2>
+        <p>
+          <strong>Iterator</strong> е поведенчески шаблон, който ни позволява да обхождаме
+          елементите на една колекция, <strong>без да разкриваме вътрешната ѝ структура</strong> -
+          независимо дали представлява списък, стек, дърво или друг вид контейнер.
+        </p>
+
+        <div class="image-center">
+          <img src="img/iterator/iterator-intent.png" alt="Iterator Intent Diagram" />
+        </div>
+
+        <h2 id="problem"><i class="fa-solid fa-triangle-exclamation"></i> Проблем</h2>
+        <p>
+          Колекциите са едни от най-често използваните структури от данни в програмирането. По
+          своята същност те представляват контейнери, които съхраняват групи от елементи.
+        </p>
+
+        <p>
+          Някои колекции използват прости списъци, но други са изградени върху структури като
+          стекове, дървета, графи и различни по-сложни организации на данни.
+        </p>
+
+        <div class="image-center">
+          <img src="img/iterator/problem1.png" alt="Iterator problem1 Diagram" />
+          <div class="img-caption">
+            Различни типове колекции.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
+        </div>
+
+        <p>
+          Независимо от тяхната вътрешна структура, всяка колекция трябва да предоставя начин да
+          достигаме до нейните елементи, така че останалата част от програмата да може да ги
+          използва. Трябва да има възможност да обхождаме елементите последователно, без да ги
+          повтаряме и без да знаем как точно са подредени вътрешно.
+        </p>
+
+        <p>
+          При колекция, базирана на списък, задачата изглежда тривиална - просто правим цикъл. Но
+          какво се случва, ако трябва да обходим дърво? Понякога ни е нуженo обхождане в дълбочина,
+          друг път обхождане в широчина, а понякога дори произволен достъп до елементите.
+        </p>
+
+        <div class="image-center">
+          <img src="img/iterator/problem2.png" alt="Iterator problem2 Diagram" />
+          <div class="img-caption">
+            Една и съща колекция може да бъде обходена по няколко различни начина.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
+        </div>
+
+        <div class="md-highlight">
+          <p>
+            Когато добавим множество различни алгоритми за обхождане директно в самата колекция,
+            нейната основна отговорност се размива.
+            <strong
+              >Тя трябва да се грижи за ефективно съхранение на данните, а не да поддържа специфични
+              обхождания. Освен това, някои алгоритми може да са съобразени с конкретно приложение,
+              така че добавянето им в една универсална (generic) колекция би било странно и
+              неуместно.</strong
+            >
+          </p>
+        </div>
+
+        <p>
+          От друга страна, клиентският код, който работи с колекциите, често няма интерес как точно
+          са реализирани те. Но тъй като различните колекции предоставят различни начини за достъп
+          до елементите си, клиентският код се оказва тясно свързан с конкретните класове на тези
+          колекции.
+        </p>
+
+        <h2 id="solution"><i class="fa-solid fa-lightbulb"></i> Решение</h2>
+        <p>
+          Основната идея на шаблона <strong>Iterator</strong> е да извади поведението за обхождане
+          на дадена колекция в отделен обект, наречен <em>итератор</em>.
+        </p>
+
+        <p>
+          Итераторите могат да реализират различни алгоритми за обхождане - последователно, обратно,
+          по дървовидна структура и други. Това позволява няколко итератора да обхождат една и съща
+          колекция едновременно и напълно независимо един от друг.
+        </p>
+
+        <p>
+          Освен алгоритъма, итераторът капсулира всички детайли по обхождането - текуща позиция,
+          колко елемента остават и как да се премине към следващия. Клиентският код просто извиква
+          метод за вземане на следващ елемент, докато не се достигне край.
+        </p>
+
+        <p>
+          Всички итератори следват един и същ интерфейс. Това позволява клиентският код да работи с
+          всякакви колекции и всякакви алгоритми за обхождане, стига да съществува подходящ
+          итератор. Ако е необходим нов тип обхождане, просто се създава нов клас Iterator - без
+          промени в колекцията или клиентския код.
+        </p>
+
+        <div class="image-center">
+          <img src="img/iterator/solution1.png" alt="Iterator solution1 Diagram" />
+          <div class="img-caption">
+            Итераторите прилагат различни алгоритми за обхождане. Няколко итераторни обекта могат да
+            обхождат една и съща колекция едновременно.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
+        </div>
+
+        <h2 id="analogy"><i class="fa-solid fa-people-arrows"></i> Аналогия от Реалния Свят</h2>
+        <p>
+          Нека си представим, че искаме да посетим Рим за няколко дни и да обходим всички негови
+          основни забележителности. Но когато пристигнем, лесно можем да изгубим часове в лутане,
+          въртейки се в кръг, без дори да намерим Колизеума.
+        </p>
+
+        <p>
+          Вместо това бихме могли да използваме приложение-гид на телефона си. То е евтино, удобно и
+          ни позволява да се придвижваме уверено из града, спирайки колкото време пожелаем на всяко
+          интересно място.
+        </p>
+
+        <p>
+          Има и трети вариант - да наемем местен екскурзовод, който познава всяка уличка. Той може
+          да съобрази маршрута с нашите предпочитания, да ни разведе из всички забележителности и да
+          разказва увлекателни истории. Това е най-приятното, но и най-скъпото решение.
+        </p>
+
+        <div class="image-center">
+          <img src="img/iterator/iterator-comic-1.png" alt="Iterator Real-World Diagram" />
+          <div class="img-caption">
+            Различни начини да обиколиш Рим.
+            <a href="sources.html#source1" class="source-ref">[1]</a>
+          </div>
+        </div>
+
+        <p>
+          Всички тези опции - хаотичните посоки, които сами си измисляме, приложението-гид или
+          екскурзоводът - играят ролята на <strong>итератори</strong> върху огромната „колекция“ от
+          забележителности, които Рим предлага.
+        </p>
+
+        <h2 id="structure"><i class="fa-solid fa-diagram-project"></i> Структура</h2>
+        <div class="cards-container">
+          <!-- Iterator Interface -->
+          <div class="card">
+            <h3>1. Интерфейс Iterator</h3>
+            <p>
+              Декларира основните операции за обхождане на колекция - вземане на следващ елемент,
+              проверка дали има още, връщане на текущата позиция и други.
+            </p>
+            <pre><code>
+interface Iterator:
+    hasNext()
+    next()
+    current()
+    reset()
+    </code></pre>
+          </div>
+
+          <!-- Concrete Iterator -->
+          <div class="card">
+            <h3>2. Конкретен Итератор (Concrete Iterator)</h3>
+            <p>
+              Реализира конкретен алгоритъм за обхождане. Сам следи позицията и позволява няколко
+              итератора да работят върху една и съща колекция едновременно.
+            </p>
+            <pre><code>
+class ConcreteIterator implements Iterator:
+    collection
+    position = 0
+
+    constructor(collection):
+        this.collection = collection
+
+    hasNext():
+        return position < collection.count()
+
+    next():
+        item = collection.get(position)
+        position++
+        return item
+
+    current():
+        return collection.get(position)
+
+    reset():
+        position = 0
+    </code></pre>
+          </div>
+
+          <!-- Collection Interface -->
+          <div class="card">
+            <h3>3. Интерфейс Collection</h3>
+            <p>
+              Декларира методи за създаване на итератори, които са съвместими с конкретната
+              колекция.
+            </p>
+            <pre><code>
+interface Collection:
+    createIterator()
+    </code></pre>
+          </div>
+
+          <!-- Concrete Collection -->
+          <div class="card">
+            <h3>4. Конкретна Колекция (Concrete Collection)</h3>
+            <p>
+              Съхранява елементите и връща нов обект на Конкретния Итератор при всяко извикване на
+              <code>createIterator()</code>.
+            </p>
+            <pre><code>
+class ConcreteCollection implements Collection:
+    items[]
+
+    add(item):
+        items.append(item)
+
+    get(i):
+        return items[i]
+
+    count():
+        return length(items)
+
+    createIterator():
+        return new ConcreteIterator(this)
+    </code></pre>
+          </div>
+
+          <!-- Client -->
+          <div class="card">
+            <h3>5. Клиент (Client)</h3>
+            <p>
+              Работи както с колекцията, така и с итератора само чрез техните интерфейси. Няма нужда
+              да знае структурата на колекцията.
+            </p>
+            <pre><code>
+client():
+    collection = new ConcreteCollection()
+    collection.add("A")
+    collection.add("B")
+    collection.add("C")
+
+    iterator = collection.createIterator()
+
+    while iterator.hasNext():
+        print(iterator.next())
+    </code></pre>
+          </div>
+        </div>
+
+        <h3>Обобщена последователност</h3>
+        <div class="sequence">
+          <div class="step">
+            <strong>1.</strong> Клиентът създава конкретна колекция и добавя елементи.
+          </div>
+          <div class="step">
+            <strong>2.</strong> Клиентът извиква <code>createIterator()</code> от колекцията.
+          </div>
+          <div class="step"><strong>3.</strong> Колекцията връща нов конкретен итератор.</div>
+          <div class="step">
+            <strong>4.</strong> Итераторът започва обхождането чрез <code>hasNext()</code> и
+            <code>next()</code>.
+          </div>
+          <div class="step"><strong>5.</strong> Итераторът проследява текущата позиция сам.</div>
+          <div class="step">
+            <strong>6.</strong> Обхождането завършва, когато <code>hasNext()</code> върне
+            <code>false</code>.
+          </div>
+        </div>
+
+        <h2 id="php-example">
+          <i class="fa-brands fa-php"></i> Пример на PHP
+          <a href="sources.html#source2" class="source-ref">[2]</a>
+        </h2>
+
+        <p>
+          Нека разгледаме конкретна имплементация на Iterator pattern в PHP. Примерът демонстрира
+          как можем да създадем колекция от книги, която имплементира стандартните PHP интерфейси
+          <code>Iterator</code> и <code>Countable</code>, позволявайки ни да итерираме през книгите
+          с <code>foreach</code>.
+        </p>
+
+        <div class="cards-container">
+          <!-- Book Class -->
+          <div class="card">
+            <h3>📄 Book.php (Обект за итериране)</h3>
+            <p>Прост клас, представящ книга с автор и заглавие.</p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Iterator;
+
+class Book
+{
+    public function __construct(
+        private string $title, 
+        private string $author
+    ) {
+    }
+
+    public function getAuthor(): string
+    {
+        return $this->author;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getAuthorAndTitle(): string
+    {
+        return $this->getTitle() . ' by ' . $this->getAuthor();
+    }
+}</code></pre>
+          </div>
+
+          <!-- BookList Class -->
+          <div class="card">
+            <h3>📄 BookList.php (Итератор колекция)</h3>
+            <p>
+              Колекция от книги, която имплементира <code>Iterator</code> и
+              <code>Countable</code> интерфейсите, позволявайки итериране с <code>foreach</code>.
+            </p>
+            <pre><code class="language-php">&lt;?php
+
+namespace DesignPatterns\Behavioral\Iterator;
+
+use Countable;
+use Iterator;
+
+class BookList implements Countable, Iterator
+{
+    private array $books = [];
+    private int $currentIndex = 0;
+
+    public function addBook(Book $book)
+    {
+        $this->books[] = $book;
+    }
+
+    public function removeBook(Book $bookToRemove)
+    {
+        foreach ($this->books as $key => $book) {
+            if ($book->getAuthorAndTitle() === $bookToRemove->getAuthorAndTitle()) {
+                unset($this->books[$key]);
+            }
+        }
+        // Пренареждане на индексите
+        $this->books = array_values($this->books);
+    }
+
+    // Countable интерфейс
+    public function count(): int
+    {
+        return count($this->books);
+    }
+
+    // Iterator интерфейс методи
+    public function current(): Book
+    {
+        return $this->books[$this->currentIndex];
+    }
+
+    public function key(): int
+    {
+        return $this->currentIndex;
+    }
+
+    public function next(): void
+    {
+        $this->currentIndex++;
+    }
+
+    public function rewind(): void
+    {
+        $this->currentIndex = 0;
+    }
+
+    public function valid(): bool
+    {
+        return isset($this->books[$this->currentIndex]);
+    }
+}</code></pre>
+          </div>
+        </div>
+
+        <h3>🧪 Примерно използване и изход</h3>
+
+        <div class="note">
+          <strong>Сценарий 1:</strong> Добавяме книги и итерираме през тях с <code>foreach</code>.
+        </div>
+
+        <div class="code-block">
+          <pre><code class="language-php">// Създаване на колекция
+$bookList = new BookList();
+
+// Добавяне на книги
+$bookList->addBook(new Book('Learning PHP Design Patterns', 'William Sanders'));
+$bookList->addBook(new Book('Professional Php Design Patterns', 'Aaron Saray'));
+$bookList->addBook(new Book('Clean Code', 'Robert C. Martin'));
+
+// Итериране през книгите
+$books = [];
+foreach ($bookList as $book) {
+    $books[] = $book->getAuthorAndTitle();
+}
+
+print_r($books);
+
+// Изход:
+// Array
+// (
+//     [0] => Learning PHP Design Patterns by William Sanders
+//     [1] => Professional Php Design Patterns by Aaron Saray
+//     [2] => Clean Code by Robert C. Martin
+// )
+</code></pre>
+        </div>
+
+        <div class="note">
+          <strong>Сценарий 2:</strong> Премахваме книга от колекцията и итерираме отново.
+        </div>
+
+        <div class="code-block">
+          <pre><code class="language-php">$book = new Book('Clean Code', 'Robert C. Martin');
+$book2 = new Book('Professional Php Design Patterns', 'Aaron Saray');
+
+$bookList = new BookList();
+$bookList->addBook($book);
+$bookList->addBook($book2);
+
+// Премахваме първата книга
+$bookList->removeBook($book);
+
+$books = [];
+foreach ($bookList as $book) {
+    $books[] = $book->getAuthorAndTitle();
+}
+
+print_r($books);
+
+// Изход:
+// Array
+// (
+//     [0] => Professional Php Design Patterns by Aaron Saray
+// )
+</code></pre>
+        </div>
+
+        <div class="note">
+          <strong>Сценарий 3:</strong> Използваме <code>count()</code> за броене на книгите.
+        </div>
+
+        <div class="code-block">
+          <pre><code class="language-php">$bookList = new BookList();
+$bookList->addBook(new Book('Clean Code', 'Robert C. Martin'));
+
+echo "Брой книги: " . count($bookList);
+// Изход: Брой книги: 1
+
+$bookList->removeBook(new Book('Clean Code', 'Robert C. Martin'));
+
+echo "Брой книги след премахване: " . count($bookList);
+// Изход: Брой книги след премахване: 0
+</code></pre>
+        </div>
+
+        <h3>📊 Какво прави Iterator pattern тук?</h3>
+
+        <div class="sequence">
+          <div class="step">
+            <strong>1. Скриване на вътрешната структура:</strong> Клиентският код не знае, че
+            книгите се съхраняват в масив <code>$books</code>.
+          </div>
+          <div class="step">
+            <strong>2. Стандартен интерфейс:</strong> Имплементирайки <code>Iterator</code>,
+            колекцията работи с <code>foreach</code> циклите на PHP.
+          </div>
+          <div class="step">
+            <strong>3. Контрол на достъпа:</strong> Можем да добавяме логика в методите на итератора
+            (напр. филтриране, валидация).
+          </div>
+          <div class="step">
+            <strong>4. Единна точка за промяна:</strong> Ако решим да използваме LinkedList вместо
+            масив, клиентският код остава непроменен.
+          </div>
+        </div>
+
+        <div class="md-highlight">
+          <strong>📌 Ключови моменти:</strong>
+          <ul>
+            <li>
+              <strong>Iterator интерфейс</strong> изисква методите: <code>current()</code>,
+              <code>key()</code>, <code>next()</code>, <code>rewind()</code>, <code>valid()</code>
+            </li>
+            <li>
+              <strong>Countable интерфейс</strong> позволява <code>count($bookList)</code> да работи
+              директно
+            </li>
+            <li><strong>foreach</strong> автоматично извиква методите на Iterator интерфейса</li>
+            <li>
+              <strong>removeBook()</strong> преиндексира масива с <code>array_values()</code>, за да
+              избегне празни индекси
+            </li>
+            <li>Клиентският код не знае как са организирани книгите вътрешно (енкапсулация)</li>
+          </ul>
+        </div>
+
+        <div class="note">
+          <strong>💡 Забележка:</strong> PHP предоставя вградени интерфейси <code>Iterator</code> и
+          <code>IteratorAggregate</code>, които правят имплементацията на pattern-а много елегантна.
+          За по-сложни сценарии може да се използва <code>IteratorAggregate</code> с
+          <code>ArrayIterator</code>.
+        </div>
+
+        <h2 id="usage"><i class="fa-solid fa-circle-check"></i> Приложимост</h2>
+        <div class="cards-container">
+          <div class="card">
+            <h3>1. Когато колекцията има сложна вътрешна структура</h3>
+            <p>
+              Използваме <strong>Iterator</strong>, когато нашата колекция е изградена върху сложни
+              структури като дървета, графи или стекове, но искаме да скрием тази сложност от
+              клиента.
+            </p>
+            <p>
+              Итераторът предоставя опростен интерфейс за последователен достъп до елементите, като
+              същевременно предпазва вътрешната структура от неправилна или нежелана намеса.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>2. Когато искаме да избегнем дублиране на логика за обхождане</h3>
+            <p>
+              Алгоритмите за обхождане често са обемни и замърсяват бизнес логиката на приложението.
+              Преместването им в отделни итераторни класове прави кода по-чист, подреден и по-лесен
+              за поддръжка.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>3. Когато трябва да обхождаме различни типове колекции</h3>
+            <p>
+              Използваме Iterator, когато искаме кодът ни да работи с различни видове колекции, без
+              да зависи от конкретната им реализация.
+            </p>
+            <p>
+              Общите интерфейси за колекции и итератори позволяват лесна подмяна на структурата или
+              алгоритъма за обхождане, без да променяме клиентския код.
+            </p>
+          </div>
+        </div>
+      </main>
     </div>
-</body>
+    <script>
+      const iteratorSubmenu = document.getElementById("iteratorSubmenu");
+
+      // Показваме подменюто само ако сме в iterator.html
+      if (window.location.pathname.includes("iterator.html")) {
+        iteratorSubmenu.classList.add("show-submenu");
+      } else {
+        iteratorSubmenu.classList.remove("show-submenu");
+      }
+    </script>
+  </body>
 </html>

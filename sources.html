@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Източници</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h2>Съдържание</h2>
+        <nav>
+          <ul>
+            <li>
+              <a href="index.html" class="nav-link"> <i class="fa-solid fa-house"></i> Начало </a>
+            </li>
+
+            <li class="has-submenu">
+              <a href="command.html" class="nav-link">
+                <i class="fa-solid fa-terminal"></i> Command
+              </a>
+            </li>
+
+            <li>
+              <a href="iterator.html" class="nav-link">
+                <i class="fa-solid fa-repeat"></i> Iterator
+              </a>
+            </li>
+
+            <li>
+              <a href="observer.html" class="nav-link">
+                <i class="fa-solid fa-eye"></i> Observer
+              </a>
+            </li>
+
+            <li>
+              <a href="sources.html" class="nav-link">
+                <i class="fa-solid fa-book"></i> Източници
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <h1><i class="fa-solid fa-book"></i> Източници</h1>
+        <p>Тук са представени основните използвани източници за реферата:</p>
+
+        <div class="cards-container">
+          <div class="card" id="source1">
+            <h3>1. Refactoring Guru – Design Patterns</h3>
+            <p>Подробно обяснение на шаблоните за дизайн, техните структури и примери.</p>
+            <a
+              href="https://refactoring.guru/design-patterns/what-is-pattern"
+              target="_blank"
+              class="source-link"
+              >Отвори източника</a
+            >
+          </div>
+
+          <div class="card" id="source2">
+            <h3>2. Design Patterns PHP</h3>
+            <p>Реализации на шаблони за дизайн на PHP с ясни примери и документация.</p>
+            <a
+              href="https://designpatternsphp.readthedocs.io/en/latest/"
+              target="_blank"
+              class="source-link"
+              >Отвори източника</a
+            >
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
