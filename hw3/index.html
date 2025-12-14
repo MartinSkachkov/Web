@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма за регистрация</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <form id="registration-form" class="registration-form" novalidate>
+            <h1>Регистрация</h1>
+            
+            <div class="form-content">
+                <section class="form-section">
+                    <h2>Основна информация</h2>
+                    
+                    <div class="form-group">
+                        <label for="username">Потребителско име <span class="required">*</span></label>
+                        <input type="text" id="username" name="username" required>
+                        <span class="error" id="username-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Име <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                        <span class="error" id="name-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="family-name">Фамилия <span class="required">*</span></label>
+                        <input type="text" id="family-name" name="family-name" required>
+                        <span class="error" id="family-name-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Имейл <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                        <span class="error" id="email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Парола <span class="required">*</span></label>
+                        <input type="password" id="password" name="password" required>
+                        <span class="error" id="password-error"></span>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h2>Адрес (опционално)</h2>
+                    
+                    <div class="form-group">
+                        <label for="street">Улица</label>
+                        <input type="text" id="street" name="street">
+                        <span class="error" id="street-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">Град</label>
+                        <input type="text" id="city" name="city">
+                        <span class="error" id="city-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="postal-code">Пощенски код</label>
+                        <input type="text" id="postal-code" name="postal-code" placeholder="11111 или 11111-1111">
+                        <span class="error" id="postal-code-error"></span>
+                    </div>
+                </section>
+
+                <button type="submit" id="register-btn" class="submit-btn">Регистрация</button>
+                
+                <div id="success-message" class="success-message"></div>
+            </div>
+        </form>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
